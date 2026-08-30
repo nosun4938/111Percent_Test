@@ -1,0 +1,113 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Define;
+
+
+namespace Data
+{
+	#region CreatureData
+	[Serializable]
+	public class CreatureData
+	{
+		public int DataId;
+        public string DescriptionTextID;
+        public string PrefabLabel;
+		public float MaxHp;
+		public float UpMaxHpBonus;
+		
+		public float Atk;
+		public float CriRate;
+		public float CriDamage;
+		public string IconImage;
+		
+		public int DefaultSkillId;
+		public int SkillAId;
+		public int SkillBId;
+	}
+	#endregion
+
+	#region MonsterData
+	[Serializable]
+	public class MonsterData : CreatureData
+	{
+		public int DropItemId;
+	}
+
+	[Serializable]
+	public class MonsterDataLoader : ILoader<int, MonsterData>
+	{
+		public List<MonsterData> monsters = new List<MonsterData>();
+		public Dictionary<int, MonsterData> MakeDict()
+		{
+			Dictionary<int, MonsterData> dict = new Dictionary<int, MonsterData>();
+			foreach (MonsterData monster in monsters)
+				dict.Add(monster.DataId, monster);
+			return dict;
+		}
+	}
+	#endregion
+
+	#region HeroData
+	[Serializable]
+	public class HeroData : CreatureData
+	{
+	}
+
+	[Serializable]
+	public class HeroDataLoader : ILoader<int, HeroData>
+	{
+		public List<HeroData> heroes = new List<HeroData>();
+		public Dictionary<int, HeroData> MakeDict()
+		{
+			Dictionary<int, HeroData> dict = new Dictionary<int, HeroData>();
+			foreach (HeroData hero in heroes)
+				dict.Add(hero.DataId, hero);
+			return dict;
+		}
+	}
+	#endregion
+
+	#region SkillData
+	[Serializable]
+	public class SkillData
+	{
+		public int DataId;
+		public string Name;
+		public string ClassName;
+		public string Description;
+		public int ProjectileId;
+		public string PrefabLabel;
+		public string IconLabel;
+		public string AnimName;
+		public float CoolTime;
+		public float DamageMultiplier;
+		public float Duration;
+		public float AnimImpactDuration;
+		public string CastingSound;
+		public float SkillRange;
+		public float ScaleMultiplier;
+		public int TargetCount;
+		public List<int> EffectIds = new List<int>();
+		public int NextLevelId;
+		public int AoEId;
+		public EEffectSize EffectSize;
+	}
+
+	[Serializable]
+	public class SkillDataLoader : ILoader<int, SkillData>
+	{
+		public List<SkillData> skills = new List<SkillData>();
+
+		public Dictionary<int, SkillData> MakeDict()
+		{
+			Dictionary<int, SkillData> dict = new Dictionary<int, SkillData>();
+			foreach (SkillData skill in skills)
+				dict.Add(skill.DataId, skill);
+			return dict;
+		}
+	}
+	#endregion
+
+}
