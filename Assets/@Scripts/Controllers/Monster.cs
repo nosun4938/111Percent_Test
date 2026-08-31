@@ -6,7 +6,7 @@ using static Define;
 
 public class Monster : Creature
 {
-	public Data.MonsterData MonsterData {  get { return (Data.MonsterData)CreatureData;  } }
+	public Data.MonsterData MonsterData { get; set; }
 
 	public override ECreatureState CreatureState 
 	{
@@ -26,16 +26,24 @@ public class Monster : Creature
 			return false;
 
 		ObjectType = EObjectType.Monster;
-
-		return true;
+        
+		
+		// Map
+        Collider.isTrigger = true;
+        RigidBody.simulated = false;
+        return true;
 	}
 
 	public override void SetInfo(int templateID)
 	{
 		base.SetInfo(templateID);
+		MonsterData = CreatureData as Data.MonsterData;
 
 		// State
 		CreatureState = ECreatureState.Idle;
+
+		// Sprite
+		SpriteRenderer.sprite = Managers.Resource.Load<Sprite>($"{MonsterData.IconImage}");
 	}
 
 	void Start()

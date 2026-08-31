@@ -14,17 +14,9 @@ namespace Data
 		public int DataId;
         public string DescriptionTextID;
         public string PrefabLabel;
+		
 		public float MaxHp;
-		public float UpMaxHpBonus;
-		
 		public float Atk;
-		public float CriRate;
-		public float CriDamage;
-		public string IconImage;
-		
-		public int DefaultSkillId;
-		public int SkillAId;
-		public int SkillBId;
 	}
 	#endregion
 
@@ -32,7 +24,8 @@ namespace Data
 	[Serializable]
 	public class MonsterData : CreatureData
 	{
-		public int DropItemId;
+		public string IconImage;
+        public int DropItemId;
 	}
 
 	[Serializable]
@@ -53,7 +46,14 @@ namespace Data
 	[Serializable]
 	public class HeroData : CreatureData
 	{
-	}
+        public float UpMaxHpBonus;
+        public float CriRate;
+        public float CriDamage;
+
+        public int DefaultSkillId;
+        public int SkillAId;
+        public int SkillBId;
+    }
 
 	[Serializable]
 	public class HeroDataLoader : ILoader<int, HeroData>

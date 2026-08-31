@@ -16,9 +16,13 @@ public class UI_Joystick : UI_Base
 	private GameObject _background;
 	private GameObject _cursor;
 	private float _radius;
-	private Vector2 _touchPos;
 
-	public override bool Init()
+    private RectTransform _bgRect;
+    private RectTransform _cursorRect;
+    private Vector2 _initAnchoredPos;
+    private Vector2 _pointerDownLocalPos;
+
+    public override bool Init()
 	{
 		if (base.Init() == false)
 			return false;
@@ -29,9 +33,13 @@ public class UI_Joystick : UI_Base
 		_cursor = GetObject((int)GameObjects.JoystickCursor);
 		_radius = _background.GetComponent<RectTransform>().sizeDelta.y / 5;
 
-		gameObject.BindEvent(OnPointerDown, type: Define.EUIEvent.PointerDown);
-		gameObject.BindEvent(OnPointerUp, type: Define.EUIEvent.PointerUp);
-		gameObject.BindEvent(OnDrag, type: Define.EUIEvent.Drag);
+        _bgRect = _background.GetComponent<RectTransform>();
+        _cursorRect = _cursor.GetComponent<RectTransform>();
+        _initAnchoredPos = _cursorRect.anchoredPosition;
+
+        gameObject.BindEvent(OnPointerDown, type: EUIEvent.PointerDown);
+		gameObject.BindEvent(OnPointerUp, type: EUIEvent.PointerUp);
+		gameObject.BindEvent(OnDrag, type: EUIEvent.Drag);
 
 		GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
 		GetComponent<Canvas>().worldCamera = Camera.main;
@@ -39,40 +47,39 @@ public class UI_Joystick : UI_Base
 		return true;
 	}
 
-	#region Event
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		_touchPos = Input.mousePosition;
+    #region Event
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            _bgRect, eventData.position, eventData.pressEventCamera, out _pointerDownLocalPos);
 
-		Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		_background.transform.position = mouseWorldPos;
-		_cursor.transform.position = mouseWorldPos;
+        Managers.Game.JoystickState = EJoystickState.PointerDown;
+        OnDrag(eventData);
+    }
 
-		Managers.Game.JoystickState = EJoystickState.PointerDown;
-	}
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _cursorRect.anchoredPosition = _initAnchoredPos;
 
-	public void OnPointerUp(PointerEventData eventData)
-	{
-		_background.transform.position = _touchPos;
-		_cursor.transform.position = _touchPos;
+        Managers.Game.MoveDir = Vector2.zero;
+        Managers.Game.JoystickState = EJoystickState.PointerUp;
+    }
 
-		Managers.Game.MoveDir = Vector2.zero;
-		Managers.Game.JoystickState = EJoystickState.PointerUp;
-	}
+    public void OnDrag(PointerEventData eventData)
+    {
+        Vector2 currentLocalPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            _bgRect, eventData.position, eventData.pressEventCamera, out currentLocalPos);
 
-	public void OnDrag(PointerEventData eventData)
-	{
-		Vector2 touchDir = (eventData.position - _touchPos);
+        Vector2 delta = currentLocalPos - _pointerDownLocalPos;
 
-		float moveDist = Mathf.Min(touchDir.magnitude, _radius);
-		Vector2 moveDir = touchDir.normalized;
-		Vector2 newPosition = _touchPos + moveDir * moveDist;
+        float moveDist = Mathf.Min(delta.magnitude, _radius);
+        Vector2 moveDir = delta.sqrMagnitude > 0f ? delta.normalized : Vector2.zero;
 
-		Vector2 worldPos = Camera.main.ScreenToWorldPoint(newPosition);
-		_cursor.transform.position = worldPos;
+        _cursorRect.anchoredPosition = _initAnchoredPos + moveDir * moveDist;
 
-		Managers.Game.MoveDir = moveDir;
-		Managers.Game.JoystickState = EJoystickState.Drag;
-	}
-	#endregion
+        Managers.Game.MoveDir = moveDir;
+        Managers.Game.JoystickState = EJoystickState.Drag;
+    }
+    #endregion
 }

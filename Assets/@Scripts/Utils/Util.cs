@@ -86,27 +86,6 @@ public static class Util
 		return EObjectType.None;
 	}
 
-	public static float GetEffectRadius(EEffectSize size)
-	{
-		switch (size)
-		{
-			case EEffectSize.CircleSmall:
-				return EFFECT_SMALL_RADIUS;
-			case EEffectSize.CircleNormal:
-				return EFFECT_NORMAL_RADIUS;
-			case EEffectSize.CircleBig:
-				return EFFECT_BIG_RADIUS;
-			case EEffectSize.ConeSmall:
-				return EFFECT_SMALL_RADIUS * 2f;
-			case EEffectSize.ConeNormal:
-				return EFFECT_NORMAL_RADIUS * 2f;
-			case EEffectSize.ConeBig:
-				return EFFECT_BIG_RADIUS * 2f;
-			default:
-				return EFFECT_SMALL_RADIUS;
-		}
-	}
-
 	public static T RandomElementByWeight<T>(this IEnumerable<T> sequence, Func<T, float> weightSelector)
 	{
 		float totalWeight = sequence.Sum(weightSelector);

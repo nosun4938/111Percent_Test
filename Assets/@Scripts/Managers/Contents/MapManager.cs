@@ -16,7 +16,7 @@ public class MapManager
 
 	// (CellPos, BaseObject)
 	Dictionary<Vector3Int, BaseObject> _cells = new Dictionary<Vector3Int, BaseObject>();
-	//public StageTransition StageTransition;
+	public StageTransition StageTransition;
 
 	private int MinX;
 	private int MaxX;
@@ -36,13 +36,13 @@ public class MapManager
 		map.transform.position = Vector3.zero;
 		map.name = $"@Map_{mapName}";
 
-		//StageTransition = map.GetComponent<StageTransition>();
+		StageTransition = map.GetComponent<StageTransition>();
 
 		Map = map;
 		MapName = mapName;
 		CellGrid = map.GetComponent<Grid>();
 
-		ParseCollisionData(map, mapName);
+        ParseCollisionData(map, mapName);
 	}
 
 	public void DestroyMap()
@@ -53,47 +53,44 @@ public class MapManager
 			Managers.Resource.Destroy(Map);
 	}
 
-	void ParseCollisionData(GameObject map, string mapName, string tilemap = "Tilemap_Collision")
-	{
-		GameObject collision = Util.FindChild(map, tilemap, true);
-		if (collision != null)
-			collision.SetActive(false);
+    void ParseCollisionData(GameObject map, string mapName, string tilemap = "Tilemap_Collision")
+    {
+        GameObject collision = Util.FindChild(map, tilemap, true);
+        if (collision != null)
+            collision.SetActive(false);
 
-		// Collision 관련 파일
-		TextAsset txt = Managers.Resource.Load<TextAsset>($"{mapName}Collision");
-		StringReader reader = new StringReader(txt.text);
+        // Collision 관련 파일
+        TextAsset txt = Managers.Resource.Load<TextAsset>($"{mapName}Collision");
+        StringReader reader = new StringReader(txt.text);
 
-		MinX = int.Parse(reader.ReadLine());
-		MaxX = int.Parse(reader.ReadLine());
-		MinY = int.Parse(reader.ReadLine());
-		MaxY = int.Parse(reader.ReadLine());
+        MinX = int.Parse(reader.ReadLine());
+        MaxX = int.Parse(reader.ReadLine());
+        MinY = int.Parse(reader.ReadLine());
+        MaxY = int.Parse(reader.ReadLine());
 
-		int xCount = MaxX - MinX + 1;
-		int yCount = MaxY - MinY + 1;
-		_collision = new ECellCollisionType[xCount, yCount];
+        int xCount = MaxX - MinX + 1;
+        int yCount = MaxY - MinY + 1;
+        _collision = new ECellCollisionType[xCount, yCount];
 
-		for (int y = 0; y < yCount; y++)
-		{
-			string line = reader.ReadLine();
-			for (int x = 0; x < xCount; x++)
-			{
-				switch (line[x])
-				{
-					case Define.MAP_TOOL_WALL:
-						_collision[x, y] = ECellCollisionType.Wall;
-						break;
-					case Define.MAP_TOOL_NONE:
-						_collision[x, y] = ECellCollisionType.None;
-						break;
-					case Define.MAP_TOOL_SEMI_WALL:
-						_collision[x, y] = ECellCollisionType.SemiWall;
-						break;
-				}
-			}
-		}
-	}
+        for (int y = 0; y < yCount; y++)
+        {
+            string line = reader.ReadLine();
+            for (int x = 0; x < xCount; x++)
+            {
+                switch (line[x])
+                {
+                    case Define.MAP_TOOL_WALL:
+                        _collision[x, y] = ECellCollisionType.Wall;
+                        break;
+                    case Define.MAP_TOOL_NONE:
+                        _collision[x, y] = ECellCollisionType.None;
+                        break;
+                }
+            }
+        }
+    }
 
-	public bool MoveTo(Creature obj, Vector3Int cellPos, bool forceMove = false)
+    public bool MoveTo(Creature obj, Vector3Int cellPos, bool forceMove = false)
 	{
 		if (CanGo(obj, cellPos) == false)
 			return false;
@@ -108,7 +105,7 @@ public class MapManager
 		// 셀 좌표 이동
 		obj.SetCellPos(cellPos, forceMove);
 
-		//Debug.Log($"Move To {cellPos}");
+		Debug.Log($"Move To {cellPos}");
 
 		return true;
 	}
@@ -201,12 +198,12 @@ public class MapManager
 		}
 	}
 
-	public bool CanGo(BaseObject self, Vector3 worldPos, bool ignoreObjects = false, bool ignoreSemiWall = false)
+	public bool CanGo(BaseObject self, Vector3 worldPos, bool ignoreObjects = false)
 	{
-		return CanGo(self, World2Cell(worldPos), ignoreObjects, ignoreSemiWall);
+		return CanGo(self, World2Cell(worldPos), ignoreObjects);
 	}
 
-	public bool CanGo(BaseObject self, Vector3Int cellPos, bool ignoreObjects = false, bool ignoreSemiWall = false)
+	public bool CanGo(BaseObject self, Vector3Int cellPos, bool ignoreObjects = false)
 	{
 		int extraCells = 0;
 		if (self != null)
@@ -218,7 +215,7 @@ public class MapManager
 			{
 				Vector3Int checkPos = new Vector3Int(cellPos.x + dx, cellPos.y + dy);
 
-				if (CanGo_Internal(self, checkPos, ignoreObjects, ignoreSemiWall) == false)
+				if (CanGo_Internal(self, checkPos, ignoreObjects) == false)
 					return false;
 			}
 		}
@@ -226,7 +223,7 @@ public class MapManager
 		return true;
 	}
 
-	bool CanGo_Internal(BaseObject self, Vector3Int cellPos, bool ignoreObjects = false, bool ignoreSemiWall = false)
+	bool CanGo_Internal(BaseObject self, Vector3Int cellPos, bool ignoreObjects = false)
 	{
 		if (cellPos.x < MinX || cellPos.x > MaxX)
 			return false;
@@ -244,9 +241,6 @@ public class MapManager
 		int y = MaxY - cellPos.y;
 		ECellCollisionType type = _collision[x, y];
 		if (type == ECellCollisionType.None)
-			return true;
-
-		if (ignoreSemiWall && type == ECellCollisionType.SemiWall)
 			return true;
 
 		return false;

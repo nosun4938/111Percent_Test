@@ -9,22 +9,22 @@ public class BaseObject : InitBase
 	public int ExtraCells { get; set; } = 0;
 
 	public EObjectType ObjectType { get; protected set; } = EObjectType.None;
-	public CircleCollider2D Collider { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
+    public Animator Animator { get; private set; }
+    public CircleCollider2D Collider { get; private set; }
 	public Rigidbody2D RigidBody { get; private set; }
-
-	public float ColliderRadius { get { return Collider != null ? Collider.radius : 0.0f; } }
-	public Vector3 CenterPosition { get { return transform.position + Vector3.up * ColliderRadius; } }
+    public string CurrentAnimName { get; set; }
 
 	public int DataTemplateID { get; set; }
 
-	bool _lookLeft = true;
-	public bool LookLeft
+	bool _lookRight = true;
+	public bool LookRight
 	{
-		get { return _lookLeft; }
+		get { return _lookRight; }
 		set
 		{
-			_lookLeft = value;
-			//Flip(!value);
+            _lookRight = value;
+			Flip(!value);
 		}
 	}
 
@@ -33,7 +33,9 @@ public class BaseObject : InitBase
 		if (base.Init() == false)
 			return false;
 
-		Collider = gameObject.GetOrAddComponent<CircleCollider2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        Animator = GetComponent<Animator>();
+        Collider = gameObject.GetOrAddComponent<CircleCollider2D>();
 		RigidBody = GetComponent<Rigidbody2D>();
 
 		return true;
@@ -42,10 +44,10 @@ public class BaseObject : InitBase
 	public void LookAtTarget(BaseObject target)
 	{
 		Vector2 dir = target.transform.position - transform.position;
-		if (dir.x < 0)
-			LookLeft = true;
+		if (dir.x > 0)
+			LookRight = true;
 		else
-			LookLeft = false;
+			LookRight = false;
 	}
 
 	public static Vector3 GetLookAtRotation(Vector3 dir)
@@ -67,10 +69,52 @@ public class BaseObject : InitBase
 	{
 
 	}
-	#endregion
+    #endregion
 
-	#region Map
-	public bool LerpCellPosCompleted { get; protected set; }
+    #region Animation Helpers
+    public void Flip(bool flag)
+    {
+        if (SpriteRenderer == null)
+            return;
+
+        SpriteRenderer.flipX = flag;
+    }
+    protected virtual void UpdateAnimation()
+    {
+
+    }
+
+    public void PlayAnimation(string animName)
+    {
+        if (CurrentAnimName == animName)
+            return;
+
+        CurrentAnimName = animName;
+        Animator.Play(animName, 0, 0f);
+    }
+
+    public bool IsAnimFinished()
+    {
+        var info = Animator.GetCurrentAnimatorStateInfo(0);
+        return info.IsName(CurrentAnimName) && info.normalizedTime >= 1f;
+    }
+
+    public float GetAnimClipLength(string animName)
+    {
+        float length = 0f;
+        foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == animName)
+            {
+                length = clip.length;
+            }
+        }
+        return length;
+    }
+    #endregion
+
+    #region Map
+    public bool LerpCellPosCompleted { get; protected set; }
 
 	Vector3Int _cellPos;
 	public Vector3Int CellPos
@@ -103,10 +147,10 @@ public class BaseObject : InitBase
 		Vector3 destPos = Managers.Map.Cell2World(CellPos);
 		Vector3 dir = destPos - transform.position;
 
-		if (dir.x < 0)
-			LookLeft = true;
+		if (dir.x > 0)
+			LookRight = true;
 		else
-			LookLeft = false;
+            LookRight = false;
 
 		if (dir.magnitude < 0.01f)
 		{

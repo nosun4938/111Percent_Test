@@ -8,21 +8,11 @@ using static Define;
 public class Creature : BaseObject
 {
 	public BaseObject Target { get; protected set; }
-	public SkillComponent Skills { get; protected set; }
 
 	public Data.CreatureData CreatureData { get; private set; }
+    public Vector3Int TargetCellPos { get; protected set; }
 
-	//public EffectComponent Effects { get; set; }
-
-	float DistToTargetSqr
-	{
-		get
-		{
-			Vector3 dir = (Target.transform.position - transform.position);
-			float distToTarget = Math.Max(0, dir.magnitude - Target.ExtraCells * 1f - ExtraCells * 1f); // TEMP
-			return distToTarget * distToTarget;
-		}
-	}
+    //public EffectComponent Effects { get; set; }
 
 	#region Stats
 	public float Hp { get; set; }
@@ -46,7 +36,6 @@ public class Creature : BaseObject
 			if (_creatureState != value)
 			{
 				_creatureState = value;
-				//UpdateAnimation();
 			}
 		}
 	}
@@ -73,23 +62,22 @@ public class Creature : BaseObject
 		// RigidBody
 		RigidBody.mass = 0;
 
-		// Skills
-		Skills = gameObject.GetOrAddComponent<SkillComponent>();
-		Skills.SetInfo(this, CreatureData);
+		
 
 		// Stat
 		Hp = CreatureData.MaxHp;
-		MaxHp = new CreatureStat(CreatureData.MaxHp);
+		/*MaxHp = new CreatureStat(CreatureData.MaxHp);
 		Atk = new CreatureStat(CreatureData.Atk);
-		CriRate = new CreatureStat(CreatureData.CriRate);
-		CriDamage = new CreatureStat(CreatureData.CriDamage);
 		ReduceDamageRate = new CreatureStat(0);
 		LifeStealRate = new CreatureStat(0);
 		ThornsDamageRate = new CreatureStat(0);
-		AttackSpeedRate = new CreatureStat(1);
+		AttackSpeedRate = new CreatureStat(1);*/
 
 		// State
 		CreatureState = ECreatureState.Idle;
+
+		// Map
+		StartCoroutine(CoLerpToCellPos());
 	}
 
 	#region Battle
@@ -108,7 +96,7 @@ public class Creature : BaseObject
 		float finalDamage = creature.Atk.Value;
 		Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp.Value);
 
-		Managers.Object.ShowDamageFont(CenterPosition, finalDamage, transform, false);
+		Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
 
 		if (Hp <= 0)
 		{
@@ -126,12 +114,52 @@ public class Creature : BaseObject
 	{
 		base.OnDead(attacker, skill);
 	}
-	#endregion
+    #endregion
 
-	#region Misc
-	protected bool IsValid(BaseObject bo)
+    #region Misc
+    protected bool IsValid(BaseObject bo)
 	{
 		return bo.IsValid();
 	}
-	#endregion
+    #endregion
+
+    #region Map
+
+    public EFindPathResult MoveOneCellToward(Vector3 dir)
+    {
+		if (LerpCellPosCompleted == false)
+            return EFindPathResult.Fail_LerpCell;
+
+        if (dir == Vector3.zero)
+			return EFindPathResult.Fail_NoPath;
+
+		int dirCellPosX = Mathf.Abs(dir.x) < 0.4f ? 0 : Math.Sign(dir.x);
+		int dirCellPosY = Math.Sign(dir.y);
+
+        Vector3Int dirCellPos = new Vector3Int(dirCellPosX, dirCellPosY, 0);
+		Vector3Int nextPos = CellPos + dirCellPos;
+
+        if (Managers.Map.MoveTo(this, nextPos) == false)
+            return EFindPathResult.Fail_MoveTo;
+
+        return EFindPathResult.Success;
+    }
+
+    public bool MoveToCellPos(Vector3Int destCellPos, bool forceMoveCloser = false)
+    {
+        if (LerpCellPosCompleted == false)
+            return false;
+
+        return Managers.Map.MoveTo(this, destCellPos);
+    }
+
+    protected IEnumerator CoLerpToCellPos()
+    {
+        while (true)
+        {
+            LerpToCellPos(5);
+            yield return null;
+        }
+    }
+    #endregion
 }

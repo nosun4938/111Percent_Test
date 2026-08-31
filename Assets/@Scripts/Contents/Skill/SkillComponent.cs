@@ -28,7 +28,7 @@ public class SkillComponent : InitBase
 		}
 	}
 
-	Creature _owner;
+	Hero _owner;
 
 	public override bool Init()
 	{
@@ -38,16 +38,16 @@ public class SkillComponent : InitBase
 		return true;
 	}
 
-	public void SetInfo(Creature owner, CreatureData creatureData)
+	public void SetInfo(Hero owner, HeroData heroData)
 	{
 		_owner = owner;
 
-		AddSkill(creatureData.DefaultSkillId, ESkillSlot.Default);
-		AddSkill(creatureData.SkillAId, ESkillSlot.A);
-		AddSkill(creatureData.SkillBId, ESkillSlot.B);
+		AddSkill(heroData.DefaultSkillId, ESkillSlot.Default);
+		AddSkill(heroData.SkillAId, ESkillSlot.A);
+		AddSkill(heroData.SkillBId, ESkillSlot.B);
 	}
 
-	public void AddSkill(int skillTemplateID, Define.ESkillSlot skillSlot)
+	public void AddSkill(int skillTemplateID, ESkillSlot skillSlot)
 	{
 		if (skillTemplateID == 0)
 			return;

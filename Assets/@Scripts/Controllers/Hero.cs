@@ -1,13 +1,17 @@
+using Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Define;
 
 public class Hero : Creature
 {
-	public bool NeedArrange { get; set; }
+	public Data.HeroData HeroData { get; set; }
+    public SkillComponent Skills { get; protected set; }
 
+    Vector2 _moveDir = Vector2.zero;
 	public override ECreatureState CreatureState
 	{
 		get { return _creatureState; }
@@ -16,7 +20,8 @@ public class Hero : Creature
 			if (_creatureState != value)
 			{
 				base.CreatureState = value;
-			}
+                UpdateAnimation();
+            }
 		}
 	}
 
@@ -27,18 +32,6 @@ public class Hero : Creature
 		private set
 		{
 			_heroMoveState = value;
-			switch (value)
-			{
-				case EHeroMoveState.CollectEnv:
-					NeedArrange = true;
-					break;
-				case EHeroMoveState.TargetMonster:
-					NeedArrange = true;
-					break;
-				case EHeroMoveState.ForceMove:
-					NeedArrange = true;
-					break;
-			}
 		}
 	}
 
@@ -49,7 +42,9 @@ public class Hero : Creature
 
 		ObjectType = EObjectType.Hero;
 
-		Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
+		Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
+        Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
+        Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
 		Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
 
 		// Map
@@ -62,10 +57,37 @@ public class Hero : Creature
 	public override void SetInfo(int templateID)
 	{
 		base.SetInfo(templateID);
+        HeroData = CreatureData as HeroData;
 
-		// State
-		CreatureState = ECreatureState.Idle;
-	}
+        // State
+        CreatureState = ECreatureState.Idle;
+
+        // Skills
+        Skills = gameObject.GetOrAddComponent<SkillComponent>();
+        Skills.SetInfo(this, HeroData);
+
+        CriRate = new CreatureStat(HeroData.CriRate);
+        CriDamage = new CreatureStat(HeroData.CriDamage);
+    }
+
+    private void Update()
+    {
+		if (Managers.Map == null)
+            return;
+
+		EFindPathResult result = MoveOneCellToward(_moveDir);
+		if (result == EFindPathResult.Monster)
+			return;
+
+        // Map Transition
+        Managers.Map.StageTransition.CheckMapChanged(CellPos);
+    }
+
+    private void HandleOnMoveDirChanged(Vector2 dir)
+	{
+        _moveDir = dir;
+    }
+
 	private void HandleOnJoystickStateChanged(EJoystickState joystickState)
 	{
 		switch (joystickState)
@@ -83,4 +105,27 @@ public class Hero : Creature
 				break;
 		}
 	}
+
+    private void OnDisable()
+    {
+        Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
+        Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
+    }
+
+    #region UpdateAnimation
+    protected override void UpdateAnimation()
+    {
+        switch (CreatureState)
+        {
+            case ECreatureState.Idle:
+                PlayAnimation(AnimName.IDLE);
+                break;
+            case ECreatureState.Skill:
+
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
 }

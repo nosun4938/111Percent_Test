@@ -15,8 +15,26 @@ MonoBehaviour:
   m_GroupName: Prefabs
   m_GUID: d0c9baf15b9397642aebd5bf29e34985
   m_SerializeEntries:
+  - m_GUID: 623489a208431a04fbf657437d73bddc
+    m_Address: TestMap
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 64ad9c8fc56ebb744aa2f2a2e73959ac
     m_Address: Monster
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2862a251b7ffb44aac91917575cfcf6
+    m_Address: Hero
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbfd86e3942fc184a81308d7c4f703a9
+    m_Address: UI_Joystick
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

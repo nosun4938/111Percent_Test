@@ -14,7 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Data
   m_GUID: 2fb639c5d9c98a940a49fa83ae8ce24d
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 52f65680d15669d4d92c95ec582f0192
+    m_Address: TestMapCollision
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cf07ad6a7bc06546a46b61356604155
+    m_Address: MonsterData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf4bd91329197464a9e974f39f08e10e
+    m_Address: HeroData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 224fb564c1a1ade479176633dbeb312e, type: 2}
   m_SchemaSet:

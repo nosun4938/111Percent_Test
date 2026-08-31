@@ -1,0 +1,148 @@
+{
+  "monsters": [
+    {
+      "DataId": 400011,
+      "DescriptionTextID": "Goblin",
+      "PrefabLabel": "Monster",
+      "MaxHp": 100.0,
+      "Atk": 10.0,
+      "IconImage": "011.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400012,
+      "DescriptionTextID": "Thorn_Goblin",
+      "PrefabLabel": "Monster",
+      "MaxHp": 100.0,
+      "Atk": 15.0,
+      "IconImage": "012.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400021,
+      "DescriptionTextID": "021",
+      "PrefabLabel": "Monster",
+      "MaxHp": 150.0,
+      "Atk": 20.0,
+      "IconImage": "021.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400022,
+      "DescriptionTextID": "022",
+      "PrefabLabel": "Monster",
+      "MaxHp": 150.0,
+      "Atk": 25.0,
+      "IconImage": "022.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400023,
+      "DescriptionTextID": "023",
+      "PrefabLabel": "Monster",
+      "MaxHp": 200.0,
+      "Atk": 20.0,
+      "IconImage": "023.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400031,
+      "DescriptionTextID": "031",
+      "PrefabLabel": "Monster",
+      "MaxHp": 150.0,
+      "Atk": 30.0,
+      "IconImage": "031.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400032,
+      "DescriptionTextID": "032",
+      "PrefabLabel": "Monster",
+      "MaxHp": 200.0,
+      "Atk": 25.0,
+      "IconImage": "032.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400033,
+      "DescriptionTextID": "033",
+      "PrefabLabel": "Monster",
+      "MaxHp": 250.0,
+      "Atk": 20.0,
+      "IconImage": "033.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400041,
+      "DescriptionTextID": "041",
+      "PrefabLabel": "Monster",
+      "MaxHp": 250.0,
+      "Atk": 30.0,
+      "IconImage": "041.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400042,
+      "DescriptionTextID": "042",
+      "PrefabLabel": "Monster",
+      "MaxHp": 300.0,
+      "Atk": 25.0,
+      "IconImage": "042.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400043,
+      "DescriptionTextID": "043",
+      "PrefabLabel": "Monster",
+      "MaxHp": 250.0,
+      "Atk": 30.0,
+      "IconImage": "043.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400044,
+      "DescriptionTextID": "044",
+      "PrefabLabel": "Monster",
+      "MaxHp": 300.0,
+      "Atk": 30.0,
+      "IconImage": "044.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400051,
+      "DescriptionTextID": "051",
+      "PrefabLabel": "Monster",
+      "MaxHp": 350.0,
+      "Atk": 30.0,
+      "IconImage": "051.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400052,
+      "DescriptionTextID": "052",
+      "PrefabLabel": "Monster",
+      "MaxHp": 300.0,
+      "Atk": 35.0,
+      "IconImage": "052.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400053,
+      "DescriptionTextID": "053",
+      "PrefabLabel": "Monster",
+      "MaxHp": 350.0,
+      "Atk": 35.0,
+      "IconImage": "053.sprite",
+      "DropItemId": 0
+    },
+    {
+      "DataId": 400054,
+      "DescriptionTextID": "054",
+      "PrefabLabel": "Monster",
+      "MaxHp": 250.0,
+      "Atk": 40.0,
+      "IconImage": "054.sprite",
+      "DropItemId": 0
+    }
+  ]
+}
