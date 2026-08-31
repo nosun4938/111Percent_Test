@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb1a9887289a9c84fafa5193edf9993c
+    m_Address: DamageFont
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 224fb564c1a1ade479176633dbeb312e, type: 2}
   m_SchemaSet:

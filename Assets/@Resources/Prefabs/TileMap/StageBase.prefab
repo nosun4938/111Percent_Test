@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4121598242167141956}
   - component: {fileID: 7109725755310626179}
   m_Layer: 0
-  m_Name: Tilemap_Object
+  m_Name: Env
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1884250810425570094}
   - component: {fileID: 5445355216243383010}
   m_Layer: 0
-  m_Name: Tilemap_Collision
+  m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 2533932119049701434}
   - component: {fileID: 8571070506934097871}
   - component: {fileID: 1715309253343684363}
+  - component: {fileID: -2471693531153229982}
   m_Layer: 0
   m_Name: StageBase
   m_TagString: Untagged
@@ -415,3 +416,19 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
+--- !u!114 &-2471693531153229982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9041108795145818696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75c460c3a75966e42afb0e9ed3fc1d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stage
+  _spawnObjects: []
+  TilemapObject: {fileID: 0}
+  TilemapTerrain: {fileID: 0}
+  IsActive: 0

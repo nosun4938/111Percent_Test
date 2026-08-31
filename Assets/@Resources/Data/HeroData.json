@@ -4,12 +4,12 @@
       "DataId": 200001,
       "DescriptionTextID": "검사",
       "PrefabLabel": "Hero",
-      "MaxHp": 1000.0,
+      "MaxHp": 300.0,
       "UpMaxHpBonus": 2.0,
-      "Atk": 25.0,
+      "Atk": 100.0,
       "CriRate": 0.15,
       "CriDamage": 1.5,
-      "DefaultSkillId": 0,
+      "DefaultSkillId": 10001,
       "SkillAId": 0,
       "SkillBId": 0
     }

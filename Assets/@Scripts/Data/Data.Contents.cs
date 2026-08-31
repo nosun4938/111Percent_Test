@@ -77,21 +77,14 @@ namespace Data
 		public string Name;
 		public string ClassName;
 		public string Description;
-		public int ProjectileId;
-		public string PrefabLabel;
-		public string IconLabel;
 		public string AnimName;
 		public float CoolTime;
-		public float DamageMultiplier;
 		public float Duration;
-		public float AnimImpactDuration;
-		public string CastingSound;
+		public float DamageMultiplier;
+		public string Sound;
 		public float SkillRange;
-		public float ScaleMultiplier;
 		public int TargetCount;
 		public List<int> EffectIds = new List<int>();
-		public int NextLevelId;
-		public int AoEId;
 		public EEffectSize EffectSize;
 	}
 

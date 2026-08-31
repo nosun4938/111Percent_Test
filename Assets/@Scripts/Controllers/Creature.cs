@@ -16,15 +16,10 @@ public class Creature : BaseObject
 
 	#region Stats
 	public float Hp { get; set; }
-	public CreatureStat MaxHp;
-	public CreatureStat Atk;
-	public CreatureStat CriRate;
-	public CreatureStat CriDamage;
-	public CreatureStat ReduceDamageRate;
-	public CreatureStat LifeStealRate;
-	public CreatureStat ThornsDamageRate; // 쏜즈
-	public CreatureStat MoveSpeed;
-	public CreatureStat AttackSpeedRate;
+	public float MaxHp;
+	public float Atk;
+	public float CriRate;
+	public float CriDamage;
 	#endregion
 
 	protected ECreatureState _creatureState = ECreatureState.None;
@@ -62,19 +57,13 @@ public class Creature : BaseObject
 		// RigidBody
 		RigidBody.mass = 0;
 
-		
+        // Stat
+        MaxHp = CreatureData.MaxHp;
+        Hp = MaxHp;
+        Atk = CreatureData.Atk;
 
-		// Stat
-		Hp = CreatureData.MaxHp;
-		/*MaxHp = new CreatureStat(CreatureData.MaxHp);
-		Atk = new CreatureStat(CreatureData.Atk);
-		ReduceDamageRate = new CreatureStat(0);
-		LifeStealRate = new CreatureStat(0);
-		ThornsDamageRate = new CreatureStat(0);
-		AttackSpeedRate = new CreatureStat(1);*/
-
-		// State
-		CreatureState = ECreatureState.Idle;
+        // State
+        CreatureState = ECreatureState.Idle;
 
 		// Map
 		StartCoroutine(CoLerpToCellPos());
@@ -93,8 +82,11 @@ public class Creature : BaseObject
 		if (creature == null)
 			return;
 
-		float finalDamage = creature.Atk.Value;
-		Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp.Value);
+		float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
+		Debug.Log($"Damage {finalDamage}");
+
+		Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp);
+		Debug.Log($"{this} Hp is {Hp}");
 
 		Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
 
@@ -139,10 +131,20 @@ public class Creature : BaseObject
         Vector3Int dirCellPos = new Vector3Int(dirCellPosX, dirCellPosY, 0);
 		Vector3Int nextPos = CellPos + dirCellPos;
 
+        BaseObject nextObject = Managers.Map.GetObject(nextPos);
+		if (nextObject is Monster monster)
+		{
+			Target = monster;
+			TargetCellPos = nextPos;
+			Debug.Log("Monster Discovered");
+            return EFindPathResult.Fail_Monster;
+        }
+
         if (Managers.Map.MoveTo(this, nextPos) == false)
             return EFindPathResult.Fail_MoveTo;
 
-        return EFindPathResult.Success;
+		Debug.Log("Move Success");
+		return EFindPathResult.Success;
     }
 
     public bool MoveToCellPos(Vector3Int destCellPos, bool forceMoveCloser = false)
@@ -157,7 +159,7 @@ public class Creature : BaseObject
     {
         while (true)
         {
-            LerpToCellPos(5);
+            LerpToCellPos(8);
             yield return null;
         }
     }

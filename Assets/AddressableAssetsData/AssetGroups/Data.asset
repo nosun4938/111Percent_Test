@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Data
   m_GUID: 2fb639c5d9c98a940a49fa83ae8ce24d
   m_SerializeEntries:
+  - m_GUID: 3cd8e9b550a2f1849bacc2e5e3c4c911
+    m_Address: SkillData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52f65680d15669d4d92c95ec582f0192
     m_Address: TestMapCollision
     m_ReadOnly: 0

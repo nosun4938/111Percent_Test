@@ -1,0 +1,20 @@
+{
+  "skills": [
+    {
+      "DataId": 10001,
+      "Name": "기본공격",
+      "ClassName": "NormalAttack",
+      "Description": "평타",
+      "IconLabel": "BattleSkillIcon_01",
+      "AnimName": "NormalAttack",
+      "CoolTime": 0.1,
+      "Duration": 0.333,
+      "DamageMultiplier": 1.0,
+      "Sound": "Slash",
+      "SkillRange": 0.0,
+      "TargetCount": 20,
+      "EffectIds": [],
+      "EffectSize": 0
+    }
+  ]
+}

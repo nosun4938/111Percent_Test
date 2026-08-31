@@ -50,7 +50,7 @@ public class UI_TitleScene : UI_Scene
 				Managers.Data.Init();
 
 				GetObject((int)GameObjects.StartImage).gameObject.SetActive(true);
-				GetText((int)Texts.DisplayText).text = "Touch To Start";
+				GetText((int)Texts.DisplayText).text = "Touch to Start";
 			}
 		});
 	}

@@ -1,4 +1,5 @@
 //using DG.Tweening;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -34,10 +35,10 @@ public class DamageFont : MonoBehaviour
 		if (parent != null)
 			GetComponent<MeshRenderer>().sortingOrder = SortingLayers.DAMAGE_FONT;
 
-		//DoAnimation();
+		DoAnimation();
 	}
 
-	/*private void DoAnimation()
+	private void DoAnimation()
 	{
 		Sequence seq = DOTween.Sequence();
 
@@ -51,5 +52,5 @@ public class DamageFont : MonoBehaviour
 			{
 				Managers.Resource.Destroy(gameObject);
 			});
-	}*/
+	}
 }

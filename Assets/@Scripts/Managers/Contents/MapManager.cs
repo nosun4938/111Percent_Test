@@ -155,7 +155,7 @@ public class MapManager
 		return GetObject(cellPos);
 	}
 
-	void RemoveObject(BaseObject obj)
+	public void RemoveObject(BaseObject obj)
 	{
 		// 기존의 좌표 제거
 		int extraCells = 0;
@@ -177,7 +177,7 @@ public class MapManager
 		}
 	}
 
-	void AddObject(BaseObject obj, Vector3Int cellPos)
+	public void AddObject(BaseObject obj, Vector3Int cellPos)
 	{
 		int extraCells = 0;
 		if (obj != null)

@@ -100,6 +100,7 @@ public class Stage : MonoBehaviour
                 case EObjectType.Monster:
                     Monster monster = Managers.Object.Spawn<Monster>(worldPos, info.DataId);
                     monster.SetCellPos(cellPos, true);
+                    Managers.Map.AddObject(monster, cellPos);
                     _spawnObjects.Add(monster);
                     break;
             }
@@ -110,6 +111,9 @@ public class Stage : MonoBehaviour
     {
         foreach (BaseObject obj in _spawnObjects)
         {
+            if (obj == null)
+                continue;
+
             switch (obj.ObjectType)
             {
                 case EObjectType.Monster:

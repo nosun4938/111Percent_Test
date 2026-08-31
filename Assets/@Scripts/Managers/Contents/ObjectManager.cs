@@ -68,7 +68,6 @@ public class ObjectManager
 			Monsters.Add(monster);
 			monster.SetInfo(templateID);
 		}
-
 		return obj as T;
 	}
 
@@ -87,6 +86,7 @@ public class ObjectManager
 			Monsters.Remove(monster);
 		}
 
+		Managers.Map.RemoveObject(obj);
 		Managers.Resource.Destroy(obj.gameObject);
 	}
 }

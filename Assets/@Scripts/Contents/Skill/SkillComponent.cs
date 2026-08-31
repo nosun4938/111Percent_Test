@@ -12,21 +12,8 @@ public class SkillComponent : InitBase
 	public List<SkillBase> ActiveSkills { get; set; } = new List<SkillBase>();
 
 	public SkillBase DefaultSkill { get; private set; }
-	public SkillBase EnvSkill { get; private set; }
 	public SkillBase ASkill { get; private set; }
 	public SkillBase BSkill { get; private set; }
-
-	public SkillBase CurrentSkill
-	{
-		get
-		{
-			if (ActiveSkills.Count == 0)
-				return DefaultSkill;
-
-			int randomIndex = Random.Range(0, ActiveSkills.Count);
-			return ActiveSkills[randomIndex];
-		}
-	}
 
 	Hero _owner;
 

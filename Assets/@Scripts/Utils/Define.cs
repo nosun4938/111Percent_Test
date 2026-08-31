@@ -9,7 +9,7 @@ public static class Define
         Fail_LerpCell,
         Fail_NoPath,
         Fail_MoveTo,
-		Monster,
+		Fail_Monster,
         Success,
     }
     public enum EScene
@@ -305,8 +305,8 @@ public static class AnimName
 	public const string ATTACK_B = "attack";
 	public const string SKILL_A = "skill";
 	public const string SKILL_B = "skill";
-	public const string IDLE = "idle";
-	public const string MOVE = "move";
+	public const string IDLE = "Idle";
+	public const string MOVE = "Move";
 	public const string DAMAGED = "hit";
 	public const string DEAD = "dead";
 	public const string EVENT_ATTACK_A = "event_attack";

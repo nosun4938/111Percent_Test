@@ -44,8 +44,6 @@ public class Hero : Creature
 
 		Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
         Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
-        Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
-		Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
 
 		// Map
 		Collider.isTrigger = true;
@@ -66,8 +64,8 @@ public class Hero : Creature
         Skills = gameObject.GetOrAddComponent<SkillComponent>();
         Skills.SetInfo(this, HeroData);
 
-        CriRate = new CreatureStat(HeroData.CriRate);
-        CriDamage = new CreatureStat(HeroData.CriDamage);
+        CriRate = HeroData.CriRate;
+        CriDamage = HeroData.CriDamage;
     }
 
     private void Update()
@@ -75,42 +73,93 @@ public class Hero : Creature
 		if (Managers.Map == null)
             return;
 
-		EFindPathResult result = MoveOneCellToward(_moveDir);
-		if (result == EFindPathResult.Monster)
-			return;
+		switch (CreatureState)
+		{
+			case ECreatureState.Idle:
+				UpdateIdle();
+				break;
+			case ECreatureState.Skill:
+				UpdateSkill();
+				break;
+            case ECreatureState.Dead:
+                UpdateDead();
+                break;
+		}
 
         // Map Transition
         Managers.Map.StageTransition.CheckMapChanged(CellPos);
     }
 
+    #region State Machine
+    private void UpdateIdle()
+    {
+		EFindPathResult result = MoveOneCellToward(_moveDir);
+		
+        if (result != EFindPathResult.Fail_Monster)
+			return;
+
+		if (Target.IsValid() == false)
+			return;
+
+		CreatureState = ECreatureState.Skill;
+		// Skill 사용
+    }
+
+	private void UpdateSkill()
+	{
+        if (_coWait != null)
+            return;
+
+        if (Target.IsValid() == false)
+        {
+            CreatureState = ECreatureState.Idle;
+            return;
+        }
+
+        // DoSkill
+        Skills.DefaultSkill.DoSkill();
+        LookAtTarget(Target);
+
+        float delay = Skills.DefaultSkill.SkillData.Duration;
+        StartWait(delay);
+    }
+
+    private void UpdateDead()
+    {
+        if (LerpCellPosCompleted)
+        {
+            Hp = MaxHp;
+            CreatureState = ECreatureState.Idle;
+        }
+    }
+    #endregion
+
+    #region Battle
+    public override void OnDamaged(BaseObject attacker, SkillBase skill)
+    {
+        base.OnDamaged(attacker, skill);
+    }
+
+    public override void OnDead(BaseObject attacker, SkillBase skill)
+    {
+        base.OnDead(attacker, skill);
+
+        CreatureState = ECreatureState.Dead;
+        Managers.Map.MoveTo(this, new Vector3Int(0, 1, 0));
+    }
+    #endregion
+
+    #region Event Handler
     private void HandleOnMoveDirChanged(Vector2 dir)
 	{
         _moveDir = dir;
     }
 
-	private void HandleOnJoystickStateChanged(EJoystickState joystickState)
-	{
-		switch (joystickState)
-		{
-			case Define.EJoystickState.PointerDown:
-				HeroMoveState = EHeroMoveState.ForceMove;
-				break;
-			case Define.EJoystickState.Drag:
-				HeroMoveState = EHeroMoveState.ForceMove;
-				break;
-			case Define.EJoystickState.PointerUp:
-				HeroMoveState = EHeroMoveState.None;
-				break;
-			default:
-				break;
-		}
-	}
-
     private void OnDisable()
     {
         Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
-        Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
     }
+	#endregion
 
     #region UpdateAnimation
     protected override void UpdateAnimation()
@@ -123,9 +172,35 @@ public class Hero : Creature
             case ECreatureState.Skill:
 
                 break;
+            case ECreatureState.Dead:
+                PlayAnimation(AnimName.IDLE);
+                break;
             default:
                 break;
         }
+    }
+    #endregion
+    
+    #region Wait
+    protected Coroutine _coWait;
+
+    protected void StartWait(float seconds)
+    {
+        CancelWait();
+        _coWait = StartCoroutine(CoWait(seconds));
+    }
+
+    IEnumerator CoWait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        _coWait = null;
+    }
+
+    protected void CancelWait()
+    {
+        if (_coWait != null)
+            StopCoroutine(_coWait);
+        _coWait = null;
     }
     #endregion
 }

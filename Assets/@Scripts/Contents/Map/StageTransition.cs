@@ -55,14 +55,15 @@ public class StageTransition : InitBase
         CurrentStageIndex = newMapIndex;
         CurrentStage = Stages[CurrentStageIndex];
         
+        // 맵 최적화 방식 고민 필요.
         LoadMapsAround(newMapIndex);
-        UnloadOtherMaps(newMapIndex);
+        //UnloadOtherMaps(newMapIndex);
     }
 
     private void LoadMapsAround(int mapIndex)
     {
-        // 이전, 현재, 다음 맵을 로드
-        for (int i = mapIndex - 1; i <= mapIndex + 1; i++)
+        // 이전, 현재, 다음 2개의 맵, 총 4개를 로드
+        for (int i = mapIndex - 1; i <= mapIndex + 2; i++)
         {
             if (i > -1 && i < Stages.Count) 
             {
