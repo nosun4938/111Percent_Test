@@ -14,6 +14,7 @@ public class SkillComponent : InitBase
 	public SkillBase DefaultSkill { get; private set; }
 	public SkillBase ASkill { get; private set; }
 	public SkillBase BSkill { get; private set; }
+	public SkillBase CSkill { get; private set; }
 
 	Hero _owner;
 
@@ -32,6 +33,7 @@ public class SkillComponent : InitBase
 		AddSkill(heroData.DefaultSkillId, ESkillSlot.Default);
 		AddSkill(heroData.SkillAId, ESkillSlot.A);
 		AddSkill(heroData.SkillBId, ESkillSlot.B);
+		AddSkill(heroData.SkillCId, ESkillSlot.C);
 	}
 
 	public void AddSkill(int skillTemplateID, ESkillSlot skillSlot)
@@ -64,6 +66,10 @@ public class SkillComponent : InitBase
 				break;
 			case Define.ESkillSlot.B:
 				BSkill = skill;
+				ActiveSkills.Add(skill);
+				break;
+			case Define.ESkillSlot.C:
+				CSkill = skill;
 				ActiveSkills.Add(skill);
 				break;
 		}

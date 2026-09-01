@@ -15,7 +15,7 @@ public class BaseObject : InitBase
 	public Rigidbody2D RigidBody { get; private set; }
     public string CurrentAnimName { get; set; }
 
-	public int DataTemplateID { get; set; }
+    public int DataTemplateID { get; set; }
 
 	bool _lookRight = true;
 	public bool LookRight
@@ -136,7 +136,7 @@ public class BaseObject : InitBase
 		{
 			transform.position = Managers.Map.Cell2World(CellPos);
 			LerpCellPosCompleted = true;
-		}
+        }
 	}
 
 	public void LerpToCellPos(float moveSpeed)

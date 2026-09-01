@@ -6,12 +6,13 @@
       "PrefabLabel": "Hero",
       "MaxHp": 300.0,
       "UpMaxHpBonus": 2.0,
-      "Atk": 100.0,
+      "Atk": 50.0,
       "CriRate": 0.15,
       "CriDamage": 1.5,
       "DefaultSkillId": 10001,
-      "SkillAId": 0,
-      "SkillBId": 0
+      "SkillAId": 10002,
+      "SkillBId": 10003,
+      "SkillCId": 10004
     }
   ]
 }

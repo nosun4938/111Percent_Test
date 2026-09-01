@@ -31,8 +31,9 @@ public abstract class SkillBase : InitBase
 		// 준비된 스킬에서 해제
 		if (Owner.Skills != null)
 			Owner.Skills.ActiveSkills.Remove(this);
-
-		StartCoroutine(CoCountdownCooldown());
+		
+		OnAttackEvent();
+        StartCoroutine(CoCountdownCooldown());
 	}
 
 	private IEnumerator CoCountdownCooldown()

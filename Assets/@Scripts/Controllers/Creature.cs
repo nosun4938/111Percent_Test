@@ -10,12 +10,12 @@ public class Creature : BaseObject
 	public BaseObject Target { get; protected set; }
 
 	public Data.CreatureData CreatureData { get; private set; }
-    public Vector3Int TargetCellPos { get; protected set; }
+    public Vector3Int TargetCellPos { get; set; }
 
     //public EffectComponent Effects { get; set; }
 
-	#region Stats
-	public float Hp { get; set; }
+    #region Stats
+    public float Hp { get; set; }
 	public float MaxHp;
 	public float Atk;
 	public float CriRate;
@@ -83,10 +83,11 @@ public class Creature : BaseObject
 			return;
 
 		float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
-		Debug.Log($"Damage {finalDamage}");
+
+		if (attacker is Monster)
+			Managers.Game.BroadcastEvent(EBroadcastEventType.ChangeHp, finalDamage);
 
 		Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp);
-		Debug.Log($"{this} Hp is {Hp}");
 
 		Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
 
@@ -125,8 +126,8 @@ public class Creature : BaseObject
         if (dir == Vector3.zero)
 			return EFindPathResult.Fail_NoPath;
 
-		int dirCellPosX = Mathf.Abs(dir.x) < 0.4f ? 0 : Math.Sign(dir.x);
-		int dirCellPosY = Math.Sign(dir.y);
+		int dirCellPosX = Mathf.Abs(dir.x) < 0.5f ? 0 : Math.Sign(dir.x);
+		int dirCellPosY = dir.y < -0.5f ? -1 : 0;
 
         Vector3Int dirCellPos = new Vector3Int(dirCellPosX, dirCellPosY, 0);
 		Vector3Int nextPos = CellPos + dirCellPos;

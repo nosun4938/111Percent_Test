@@ -90,7 +90,7 @@ public class MapManager
         }
     }
 
-    public bool MoveTo(Creature obj, Vector3Int cellPos, bool forceMove = false)
+	public bool MoveTo(Creature obj, Vector3Int cellPos, bool forceMove = false)
 	{
 		if (CanGo(obj, cellPos) == false)
 			return false;
@@ -105,7 +105,7 @@ public class MapManager
 		// 셀 좌표 이동
 		obj.SetCellPos(cellPos, forceMove);
 
-		Debug.Log($"Move To {cellPos}");
+		//Debug.Log($"Move To {cellPos}");
 
 		return true;
 	}

@@ -2,6 +2,7 @@ using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AdaptivePerformance.Provider;
 using static Define;
 
 public class Monster : Creature
@@ -55,9 +56,29 @@ public class Monster : Creature
 	public override void OnDamaged(BaseObject attacker, SkillBase skill)
 	{
 		base.OnDamaged(attacker, skill);
-	}
 
-	public override void OnDead(BaseObject attacker, SkillBase skill)
+        Creature creature = attacker as Creature;
+        if (creature == null)
+            return;
+
+        float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
+        Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp);
+
+        Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
+
+        if (Hp <= 0)
+        {
+            OnDead(attacker, skill);
+            CreatureState = ECreatureState.Dead;
+            return;
+        }
+
+        // 스킬에 따른 Effect 적용
+        //if (skill.SkillData.EffectIds != null)
+        //Effects.GenerateEffects(skill.SkillData.EffectIds.ToArray(), EEffectSpawnType.Skill, skill);
+    }
+
+    public override void OnDead(BaseObject attacker, SkillBase skill)
 	{
 		base.OnDead(attacker, skill);
 

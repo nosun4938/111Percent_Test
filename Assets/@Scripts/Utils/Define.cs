@@ -95,7 +95,8 @@ public static class Define
 	{
 		Default,
 		A,
-		B
+		B,
+		C,
 	}
 
 	public enum EEffectSize
@@ -254,12 +255,7 @@ public static class Define
 	public enum EBroadcastEventType
 	{
 		None,
-		ChangeMeat,
-		ChangeWood,
-		ChangeMineral,
-		ChangeGold,
-		ChangeDia,
-		ChangeMaterials,
+		ChangeHp,
 		KillMonster,
 		LevelUp,
 		DungeonClear,

@@ -7,7 +7,7 @@ using static Define;
 
 public class ObjectManager
 {
-	public HashSet<Hero> Heroes { get; } = new HashSet<Hero>();
+	public Hero Player { get; set; } = new Hero();
 	public HashSet<Monster> Monsters { get; } = new HashSet<Monster>();
 
 	#region Roots
@@ -58,7 +58,7 @@ public class ObjectManager
 		{
 			obj.transform.parent = HeroRoot;
 			Hero hero = go.GetComponent<Hero>();
-			Heroes.Add(hero);
+			Player = hero;
 			hero.SetInfo(templateID);
 		}
 		else if (obj.ObjectType == EObjectType.Monster)
@@ -78,7 +78,7 @@ public class ObjectManager
 		if (obj.ObjectType == EObjectType.Hero)
 		{
 			Hero hero = obj.GetComponent<Hero>();
-			Heroes.Remove(hero);
+			Player = null;
 		}
 		else if (obj.ObjectType == EObjectType.Monster)
 		{
@@ -89,4 +89,54 @@ public class ObjectManager
 		Managers.Map.RemoveObject(obj);
 		Managers.Resource.Destroy(obj.gameObject);
 	}
+
+    #region Skill 판정
+    public List<Monster> FindLineTargets(Hero owner, float range)
+    {
+        HashSet<Monster> targets = new HashSet<Monster>();
+        HashSet<Monster> ret = new HashSet<Monster>();
+
+        List<Monster> objs = Managers.Map.GatherObjects<Monster>(owner.transform.position, 0, range);
+        targets.AddRange(objs);
+
+        foreach (Monster target in targets)
+        {
+            // 1. 거리안에 있는지 확인
+            var targetPos = target.transform.position;
+            float distance = Vector3.Distance(targetPos, owner.transform.position);
+
+            if (distance > range)
+                continue;
+
+			// 2. Hero보다 아래에 있는지 확인
+			if (targetPos.y > owner.transform.position.y)
+				continue;
+
+            ret.Add(target);
+        }
+
+        return ret.ToList();
+    }
+
+    public List<Monster> FindCircleTargets(Hero owner, Vector3 startPos, float range)
+    {
+        HashSet<Monster> targets = new HashSet<Monster>();
+        HashSet<Monster> ret = new HashSet<Monster>();
+
+        List<Monster> objs = Managers.Map.GatherObjects<Monster>(owner.transform.position, range, range);
+        targets.AddRange(objs);
+
+        foreach (var target in targets)
+        {
+            // 1. 거리안에 있는지 확인
+            var targetPos = target.transform.position;
+            float distSqr = (targetPos - startPos).sqrMagnitude;
+
+            if (distSqr < range * range)
+                ret.Add(target);
+        }
+
+        return ret.ToList();
+    }
+    #endregion
 }

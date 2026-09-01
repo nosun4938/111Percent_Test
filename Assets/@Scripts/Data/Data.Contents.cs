@@ -53,6 +53,7 @@ namespace Data
         public int DefaultSkillId;
         public int SkillAId;
         public int SkillBId;
+		public int SkillCId;
     }
 
 	[Serializable]

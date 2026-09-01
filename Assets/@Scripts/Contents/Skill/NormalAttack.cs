@@ -19,22 +19,20 @@ public class NormalAttack : SkillBase
 
 	public override void DoSkill()
 	{
-		base.DoSkill();
-
-		Owner.CreatureState = Define.ECreatureState.Skill;
-		Owner.PlayAnimation(SkillData.AnimName);
-
-		Owner.LookAtTarget(Owner.Target);
-	}
-
-	void PickupTargetAndProcessHit()
-	{
+        Owner.PlayingSkill = this;
+        Owner.LookAtTarget(Owner.Target);
+        Owner.PlayAnimation(SkillData.AnimName);
+        base.DoSkill();
 	}
 
 	protected override void OnAttackEvent()
 	{
 		if (Owner.Target.IsValid() == false)
 			return;
+
+        if (Owner.PlayingSkill != this)
+            return;
+
         Owner.OnDamaged(Owner.Target, this);
         Owner.Target.OnDamaged(Owner, this);
 	}
