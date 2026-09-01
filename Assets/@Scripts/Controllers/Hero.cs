@@ -83,7 +83,7 @@ public class Hero : Creature
 				UpdateSkill();
 				break;
             case ECreatureState.Dead:
-                UpdateDead();
+                //UpdateDead();
                 break;
 		}
 
@@ -189,15 +189,8 @@ public class Hero : Creature
 
     private void EnterDead()
     {
-        ModifyHp(MaxHp);
         CreatureState = ECreatureState.Dead;
-    }
-    private void UpdateDead()
-    {
-        if (LerpCellPosCompleted)
-        {
-            EnterIdle();
-        }
+        Managers.UI.ShowPopupUI<UI_GameOverPopup>();
     }
     #endregion
 
@@ -205,7 +198,6 @@ public class Hero : Creature
     public override void OnDamaged(BaseObject attacker, SkillBase skill)
     {
         base.OnDamaged(attacker, skill);
-
         Creature creature = attacker as Creature;
         if (creature == null)
             return;
@@ -225,8 +217,6 @@ public class Hero : Creature
     public override void OnDead(BaseObject attacker, SkillBase skill)
     {
         base.OnDead(attacker, skill);
-        Managers.Game.SaveData.Score = 0;
-        Managers.Game.SaveGame();
 
         Managers.Map.MoveTo(this, new Vector3Int(0, 1, 0));
         EnterDead();

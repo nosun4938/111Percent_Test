@@ -59,4 +59,12 @@ public class Managers : MonoBehaviour
 		}
 	}
 
+    public static void Clear()
+    {
+        //s_instance._inventory.Clear();
+        s_instance._pool.Clear();
+        //s_instance._resource.Clear();
+        //s_instance._sound.Clear();
+        s_instance._ui.Clear();
+    }
 }

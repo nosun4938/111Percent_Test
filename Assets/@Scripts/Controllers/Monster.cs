@@ -82,6 +82,7 @@ public class Monster : Creature
     public override void OnDead(BaseObject attacker, SkillBase skill)
 	{
 		base.OnDead(attacker, skill);
+		CreatureState = ECreatureState.Dead;
 
         // Drop Gold
         Managers.Game.EarnGold(Random.Range(1, 20));

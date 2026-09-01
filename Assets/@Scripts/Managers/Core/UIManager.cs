@@ -27,7 +27,9 @@ public class UIManager
 		{
 			GameObject root = GameObject.Find("@UI_Root");
 			if (root == null)
-				root = new GameObject { name = "@UI_Root" };
+			{
+                root = new GameObject { name = "@UI_Root" };
+            }
 			return root;
 		}
 	}
@@ -104,7 +106,7 @@ public class UIManager
 			name = typeof(T).Name;
 
 		GameObject go = Managers.Resource.Instantiate(name, parent, pooling);
-		go.transform.SetParent(parent);
+		go.transform.SetParent(parent, false);
 
 		return Util.GetOrAddComponent<T>(go);
 	}
@@ -155,7 +157,7 @@ public class UIManager
 		if (string.IsNullOrEmpty(name))
 			name = typeof(T).Name;
 
-		if (_popups.TryGetValue(name, out UI_Popup popup) == false)
+		if (_popups.TryGetValue(name, out UI_Popup popup) == false || popup == null)
 		{
 			GameObject go = Managers.Resource.Instantiate(name);
 			popup = Util.GetOrAddComponent<T>(go);

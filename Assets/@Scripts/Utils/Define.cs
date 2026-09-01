@@ -12,6 +12,11 @@ public static class Define
 		Fail_Monster,
         Success,
     }
+	public enum EGameState
+	{
+		GameStart,
+		GameOver,
+	}
     public enum EScene
 	{
 		Unknown,
@@ -57,8 +62,8 @@ public static class Define
 		Idle,
 		Move,
 		Skill,
-		OnDamaged,
-		Dead
+		Dead,
+		GameOver,
 	}
 
 	public enum EHeroMoveState

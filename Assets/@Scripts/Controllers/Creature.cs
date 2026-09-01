@@ -77,19 +77,19 @@ public class Creature : BaseObject
 	public override void OnDamaged(BaseObject attacker, SkillBase skill)
 	{
 		base.OnDamaged(attacker, skill);
+		if (CreatureState == ECreatureState.Dead)
+			return;
 
 		if (attacker.IsValid() == false)
 			return;
-
-		
-
-		
 	}
 
 	public override void OnDead(BaseObject attacker, SkillBase skill)
 	{
 		base.OnDead(attacker, skill);
-	}
+        if (CreatureState == ECreatureState.Dead)
+            return;
+    }
     #endregion
 
     #region Misc

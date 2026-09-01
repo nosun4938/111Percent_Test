@@ -24,7 +24,6 @@ public class InventoryManager
         ItemSaveData saveData = new ItemSaveData()
         {
             InstanceID = itemDbID,
-            DbID = itemDbID,
             TemplateID = itemTemplateID,
             Count = count,
             EquipSlot = (int)EEquipSlotType.Inventory,
@@ -68,10 +67,13 @@ public class InventoryManager
         // 기존 아이템 해제
         if (EquippedItems.TryGetValue((int)equipSlotType, out Item prev))
         {
-
+            EquippedItems.Remove((int)equipSlotType);
+            prev.EquipSlot = (int)EEquipSlotType.Inventory;
+            InventoryItems.Add(prev);
         }
 
         // 아이템 장착
+        InventoryItems.Remove(item);
         item.EquipSlot = (int)equipSlotType;
         EquippedItems[(int)equipSlotType] = item;
     }
@@ -102,6 +104,14 @@ public class InventoryManager
     public Item GetItem(int instanceId)
     {
         return AllItems.Find(item => item.InstanceID == instanceId);
+    }
+    public bool HasItem(int templateId)
+    {
+        return AllItems.Exists(item => item.TemplateID == templateId);
+    }
+    public Item GetItemByTemplateId(int templateId)
+    {
+        return AllItems.Find(item => item.TemplateID == templateId);
     }
 
     public Item GetEquippedItem(EEquipSlotType equipSlotType)

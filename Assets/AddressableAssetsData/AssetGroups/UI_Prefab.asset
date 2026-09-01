@@ -10,37 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Prefabs
+  m_Name: UI_Prefab
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Prefabs
-  m_GUID: d0c9baf15b9397642aebd5bf29e34985
+  m_GroupName: UI_Prefab
+  m_GUID: a81e841bfa93256478235bcb2b60b2ca
   m_SerializeEntries:
-  - m_GUID: 623489a208431a04fbf657437d73bddc
-    m_Address: TestMap
+  - m_GUID: 0a2857402c5a8a346b80c03e0df56d1d
+    m_Address: UI_SwordPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 64ad9c8fc56ebb744aa2f2a2e73959ac
-    m_Address: Monster
+  - m_GUID: 9d97058a7073da849a7b710e1766a1b4
+    m_Address: UI_GameScene
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a2862a251b7ffb44aac91917575cfcf6
-    m_Address: Hero
+  - m_GUID: a06c85b5ea4c79a42ac4e2b213c25f66
+    m_Address: UI_GamePopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d8762f8f91eb9b74c977984898e88486
-    m_Address: Boss
+  - m_GUID: cbfd86e3942fc184a81308d7c4f703a9
+    m_Address: UI_Joystick
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fb1a9887289a9c84fafa5193edf9993c
-    m_Address: DamageFont
+  - m_GUID: e33cca1a2e7801e43bc9df3768dddbec
+    m_Address: UI_SwordSubitem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef78406a86bd8a44bacb7ff786dabc0f
+    m_Address: UI_GameOverPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -49,5 +55,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 224fb564c1a1ade479176633dbeb312e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 237e1a1f53b5cd14ba380f01392d0f56, type: 2}
-    - {fileID: 11400000, guid: e240a4e8b418640438fd60a876dbac0e, type: 2}
+    - {fileID: 11400000, guid: e8864131af63a724c9440b18e4cc0748, type: 2}
+    - {fileID: 11400000, guid: f059f9d54252c964681284e2a0e27ad0, type: 2}

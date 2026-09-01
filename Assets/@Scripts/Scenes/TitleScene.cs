@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TitleScene : BaseScene
@@ -8,6 +9,9 @@ public class TitleScene : BaseScene
             return false;
 
         SceneType = Define.EScene.TitleScene;
+
+        // Camera
+        CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
 
         return true;
     }

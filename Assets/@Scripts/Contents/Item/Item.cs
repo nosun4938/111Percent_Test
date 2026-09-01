@@ -11,10 +11,6 @@ public class Item
         get { return SaveData.InstanceID; }
         set { SaveData.InstanceID = value;}
     }
-    public int DbID
-    {
-        get { return SaveData.DbID; }
-    }
     public int TemplateID
     {
         get { return SaveData.TemplateID; }

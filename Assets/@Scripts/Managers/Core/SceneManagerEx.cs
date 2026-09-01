@@ -8,6 +8,7 @@ public class SceneManagerEx
 
     public void LoadScene(EScene type)
     {
+        Managers.Clear();
         SceneManager.LoadScene(GetSceneName(type));
     }
 

@@ -28,7 +28,6 @@ public class GameSaveData
 public class ItemSaveData
 {
     public int InstanceID;
-    public int DbID;
     public int TemplateID;
     public int Count;
     public int EquipSlot; // 장착 + 인벤 + 창고
@@ -81,6 +80,7 @@ public class GameManager
         return itemDbId;
     }
     #endregion
+
     #region Hero
     private Vector2 _moveDir;
 	public Vector2 MoveDir
@@ -185,11 +185,22 @@ public class GameManager
     }
     #endregion
 
+    #region GameStart
+    public void GameStart()
+    {
+        OnGameState?.Invoke(EGameState.GameStart);
+    }
+    public void GameOver()
+    {
+        OnGameState?.Invoke(EGameState.GameOver);
+    }
+    #endregion
 
     #region Action
     public event Action<Vector2> OnMoveDirChanged;
 	public event Action<EJoystickState> OnJoystickStateChanged;
 	public event Action<ESkillSlot> OnSkillSlotChanged;
 	public event Action<EBroadcastEventType, float> OnBroadcastEvent;
+    public event Action<EGameState> OnGameState;
 	#endregion
 }
