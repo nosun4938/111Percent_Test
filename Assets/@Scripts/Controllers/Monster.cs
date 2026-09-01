@@ -32,7 +32,8 @@ public class Monster : Creature
 		// Map
         Collider.isTrigger = true;
         RigidBody.simulated = false;
-        return true;
+
+		return true;
 	}
 
 	public override void SetInfo(int templateID)
@@ -42,14 +43,12 @@ public class Monster : Creature
 
 		// State
 		CreatureState = ECreatureState.Idle;
+		
+		float scale = MonsterData.Scale;
+		transform.localScale = new Vector3(scale, scale, scale);
 
 		// Sprite
 		SpriteRenderer.sprite = Managers.Resource.Load<Sprite>($"{MonsterData.IconImage}");
-	}
-
-	void Start()
-	{
-		
 	}
 
 	#region Battle
@@ -60,6 +59,8 @@ public class Monster : Creature
         Creature creature = attacker as Creature;
         if (creature == null)
             return;
+		Target = creature;
+		Debug.Log($"Target on {Target}");
 
         float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
         Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp);
@@ -82,10 +83,10 @@ public class Monster : Creature
 	{
 		base.OnDead(attacker, skill);
 
-		// Drop Item
-		int dropItemId = MonsterData.DropItemId;
+        // Drop Gold
+        Managers.Game.EarnGold(Random.Range(1, 20));
 
-		Managers.Object.Despawn(this);
+        Managers.Object.Despawn(this);
 	}
 	#endregion
 }

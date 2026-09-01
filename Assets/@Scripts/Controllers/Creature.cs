@@ -1,3 +1,4 @@
+using Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +9,9 @@ using static Define;
 public class Creature : BaseObject
 {
 	public BaseObject Target { get; protected set; }
-
-	public Data.CreatureData CreatureData { get; private set; }
+    public SkillComponent Skills { get; protected set; }
+    public SkillBase PlayingSkill { get; set; }
+    public Data.CreatureData CreatureData { get; private set; }
     public Vector3Int TargetCellPos { get; set; }
 
     //public EffectComponent Effects { get; set; }
@@ -62,8 +64,9 @@ public class Creature : BaseObject
         Hp = MaxHp;
         Atk = CreatureData.Atk;
 
-        // State
-        CreatureState = ECreatureState.Idle;
+        // Skills
+        Skills = gameObject.GetOrAddComponent<SkillComponent>();
+        Skills.SetInfo(this, CreatureData);
 
 		// Map
 		StartCoroutine(CoLerpToCellPos());
@@ -78,29 +81,9 @@ public class Creature : BaseObject
 		if (attacker.IsValid() == false)
 			return;
 
-		Creature creature = attacker as Creature;
-		if (creature == null)
-			return;
+		
 
-		float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
-
-		if (attacker is Monster)
-			Managers.Game.BroadcastEvent(EBroadcastEventType.ChangeHp, finalDamage);
-
-		Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp);
-
-		Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
-
-		if (Hp <= 0)
-		{
-			OnDead(attacker, skill);
-			CreatureState = ECreatureState.Dead;
-			return;
-		}
-
-		// 스킬에 따른 Effect 적용
-		//if (skill.SkillData.EffectIds != null)
-			//Effects.GenerateEffects(skill.SkillData.EffectIds.ToArray(), EEffectSpawnType.Skill, skill);
+		
 	}
 
 	public override void OnDead(BaseObject attacker, SkillBase skill)
@@ -135,7 +118,7 @@ public class Creature : BaseObject
         BaseObject nextObject = Managers.Map.GetObject(nextPos);
 		if (nextObject is Monster monster)
 		{
-			Target = monster;
+			Target = nextObject;
 			TargetCellPos = nextPos;
 			Debug.Log("Monster Discovered");
             return EFindPathResult.Fail_Monster;

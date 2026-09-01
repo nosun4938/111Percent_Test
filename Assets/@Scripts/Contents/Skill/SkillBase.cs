@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class SkillBase : InitBase
 {
-	public Hero Owner { get; protected set; }
+	public Creature Owner { get; protected set; }
 	public float RemainCoolTime { get; set; }
 
 	public Data.SkillData SkillData { get; private set; }
@@ -18,7 +18,7 @@ public abstract class SkillBase : InitBase
 		return true;
 	}
 
-	public virtual void SetInfo(Hero owner, int skillTemplateID)
+	public virtual void SetInfo(Creature owner, int skillTemplateID)
 	{
 		Owner = owner;
 		SkillData = Managers.Data.SkillDic[skillTemplateID];

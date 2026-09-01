@@ -59,6 +59,21 @@
       "TargetCount": 20,
       "EffectIds": [],
       "EffectSize": 0
+    },
+    {
+      "DataId": 10071,
+      "Name": "보스공격",
+      "ClassName": "BossAttack",
+      "Description": "보스공격",
+      "AnimName": "BossAttack",
+      "CoolTime": 5.0,
+      "Duration": 1.0,
+      "DamageMultiplier": 10.0,
+      "Sound": "Slash",
+      "SkillRange": 0.0,
+      "TargetCount": 20,
+      "EffectIds": [],
+      "EffectSize": 0
     }
   ]
 }

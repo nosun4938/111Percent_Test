@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d7749c1c27c0674fb8cc91cd0c4172f
+    m_Address: Sword_4.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1db55c4ad448636498b229b026da70a7
     m_Address: 033.sprite
     m_ReadOnly: 0
@@ -53,6 +59,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3123bbf521a65b441868a8038867770c
     m_Address: 032.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3202a019559ae2546bc44a98cdbcf060
+    m_Address: Sword_1.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -93,6 +105,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c40419d436a4914083d16541a7ca76c
+    m_Address: Sword_9.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5f90c2609e6dab44dbec95ad74ea1764
     m_Address: 054.sprite
     m_ReadOnly: 0
@@ -111,6 +129,24 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6aea94567fe5ff64fa2e96c401f7e751
+    m_Address: Sword_7.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72e26c18131353647bc5457aa9a5f9ef
+    m_Address: Sword_6.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 845bb6478e5a581438e3e07d44be8d3f
+    m_Address: Sword_5.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 88fd27485813eff4cbe16b6e2e25d723
     m_Address: 061.sprite
     m_ReadOnly: 0
@@ -125,6 +161,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 985b0582d8de15c4e99cef744c22fa42
     m_Address: 072.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c8f1d54ae28f2c478c7f01d1dcc8ad3
+    m_Address: Sword_8.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -171,8 +213,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2b4b43eb3d1b1244bbeb0bc5d80b5fc
+    m_Address: Sword_3.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d4dc83601928d0b4892d6da239969474
     m_Address: 022.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5cd8435ee25dc44d8852b34b78326fd
+    m_Address: Sword_10.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -191,6 +245,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d8bf44d7194c2b04f89b9202bc7e953f
     m_Address: 021.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e344675b7660f3640af83d65950a2f8f
+    m_Address: Sword_2.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

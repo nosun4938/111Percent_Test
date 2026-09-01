@@ -15,6 +15,7 @@ public static class Define
     public enum EScene
 	{
 		Unknown,
+		LoadScene,
 		TitleScene,
 		GameScene,
 	}
@@ -46,6 +47,7 @@ public static class Define
 		None,
 		Hero,
 		Monster,
+		Boss,
 		Effect,
 	}
 
@@ -150,41 +152,9 @@ public static class Define
 		Legendary
 	}
 
-	public enum EItemGroupType
-	{
-		None,
-		Equipment,
-		Consumable,
-	}
-
 	public enum EItemType
 	{
-		None,
-		Weapon,
-		Armor,
-		Potion,
-		Scroll
-	}
-
-	public enum EItemSubType
-	{
-		None,
-
-		Sword,
-		Dagger,
-		Bow,
-
-		Helmet,
-		Armor,
-		Shield,
-		Gloves,
-		Shoes,
-
-		EnchantWeapon,
-		EnchantArmor,
-
-		HealthPotion,
-		ManaPotion,
+		Sword
 	}
 
 	public enum EEquipSlotType
@@ -256,8 +226,8 @@ public static class Define
 	{
 		None,
 		ChangeHp,
-		KillMonster,
-		LevelUp,
+		ChangeGold,
+		ScoreUp,
 		DungeonClear,
 		ChangeInventory,
 		ChangeCrew,

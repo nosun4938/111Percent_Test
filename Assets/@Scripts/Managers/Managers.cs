@@ -13,10 +13,12 @@ public class Managers : MonoBehaviour
 
 	#region Contents
 	private GameManager _game = new GameManager();
+	private InventoryManager _inventory = new InventoryManager();
 	private ObjectManager _object = new ObjectManager();
 	private MapManager _map = new MapManager();
 
 	public static GameManager Game { get { return Instance?._game; } }
+	public static InventoryManager Inventory {  get { return Instance?._inventory; } }
 	public static ObjectManager Object { get { return Instance?._object; } }
 	public static MapManager Map { get { return Instance?._map; } }
 	#endregion

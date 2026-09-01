@@ -13,14 +13,21 @@ public class DataManager
 	public Dictionary<int, Data.MonsterData> MonsterDic { get; private set; } = new Dictionary<int, Data.MonsterData>();
 	public Dictionary<int, Data.HeroData> HeroDic { get; private set; } = new Dictionary<int, Data.HeroData>();
 	public Dictionary<int, Data.SkillData> SkillDic { get; private set; } = new Dictionary<int, Data.SkillData>();
+    public Dictionary<int, Data.ItemData> ItemDic { get; private set; } = new Dictionary<int, Data.ItemData>();
+	public Dictionary<int, Data.SwordData> SwordDic { get; private set; } = new Dictionary<int, Data.SwordData>();
 
 
-	public void Init()
+    public void Init()
 	{
 		MonsterDic = LoadJson<Data.MonsterDataLoader, int, Data.MonsterData>("MonsterData").MakeDict();
 		HeroDic = LoadJson<Data.HeroDataLoader, int, Data.HeroData>("HeroData").MakeDict();
 		SkillDic = LoadJson<Data.SkillDataLoader, int, Data.SkillData>("SkillData").MakeDict();
-	}
+		SwordDic = LoadJson<Data.ItemDataLoader<Data.SwordData>, int, Data.SwordData>("SwordData").MakeDict();
+
+        ItemDic.Clear();
+        foreach (var item in SwordDic)
+            ItemDic.Add(item.Key, item.Value);
+    }
 
 	private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
 	{

@@ -7,7 +7,8 @@
       "MaxHp": 100.0,
       "Atk": 10.0,
       "IconImage": "011.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400012,
@@ -16,7 +17,8 @@
       "MaxHp": 100.0,
       "Atk": 15.0,
       "IconImage": "012.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400021,
@@ -25,7 +27,8 @@
       "MaxHp": 150.0,
       "Atk": 20.0,
       "IconImage": "021.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400022,
@@ -34,7 +37,8 @@
       "MaxHp": 150.0,
       "Atk": 25.0,
       "IconImage": "022.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400023,
@@ -43,7 +47,8 @@
       "MaxHp": 200.0,
       "Atk": 20.0,
       "IconImage": "023.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400031,
@@ -52,7 +57,8 @@
       "MaxHp": 150.0,
       "Atk": 30.0,
       "IconImage": "031.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400032,
@@ -61,7 +67,8 @@
       "MaxHp": 200.0,
       "Atk": 25.0,
       "IconImage": "032.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400033,
@@ -70,7 +77,8 @@
       "MaxHp": 250.0,
       "Atk": 20.0,
       "IconImage": "033.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400041,
@@ -79,7 +87,8 @@
       "MaxHp": 250.0,
       "Atk": 30.0,
       "IconImage": "041.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400042,
@@ -88,7 +97,8 @@
       "MaxHp": 300.0,
       "Atk": 25.0,
       "IconImage": "042.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400043,
@@ -97,7 +107,8 @@
       "MaxHp": 250.0,
       "Atk": 30.0,
       "IconImage": "043.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400044,
@@ -106,7 +117,8 @@
       "MaxHp": 300.0,
       "Atk": 30.0,
       "IconImage": "044.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400051,
@@ -115,7 +127,8 @@
       "MaxHp": 350.0,
       "Atk": 30.0,
       "IconImage": "051.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400052,
@@ -124,7 +137,8 @@
       "MaxHp": 300.0,
       "Atk": 35.0,
       "IconImage": "052.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400053,
@@ -133,7 +147,8 @@
       "MaxHp": 350.0,
       "Atk": 35.0,
       "IconImage": "053.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
     },
     {
       "DataId": 400054,
@@ -142,7 +157,82 @@
       "MaxHp": 250.0,
       "Atk": 40.0,
       "IconImage": "054.sprite",
-      "DropItemId": 0
+      "DropItemId": 0,
+      "Scale": 1
+    },
+    {
+      "DataId": 400061,
+      "DescriptionTextID": "061",
+      "PrefabLabel": "Monster",
+      "MaxHp": 300.0,
+      "Atk": 45.0,
+      "IconImage": "061.sprite",
+      "DropItemId": 0,
+      "Scale": 1
+    },
+    {
+      "DataId": 400062,
+      "DescriptionTextID": "062",
+      "PrefabLabel": "Monster",
+      "MaxHp": 350.0,
+      "Atk": 40.0,
+      "IconImage": "062.sprite",
+      "DropItemId": 0,
+      "Scale": 1
+    },
+    {
+      "DataId": 400063,
+      "DescriptionTextID": "063",
+      "PrefabLabel": "Monster",
+      "MaxHp": 400.0,
+      "Atk": 40.0,
+      "IconImage": "063.sprite",
+      "DropItemId": 0,
+      "Scale": 1
+    },
+    {
+      "DataId": 400071,
+      "DescriptionTextID": "071",
+      "PrefabLabel": "Boss",
+      "MaxHp": 1000.0,
+      "Atk": 10.0,
+      "IconImage": "071.sprite",
+      "DropItemId": 6,
+      "DefaultSkillId": 10071,
+      "Scale": 5
+    },
+    {
+      "DataId": 400072,
+      "DescriptionTextID": "072",
+      "PrefabLabel": "Boss",
+      "MaxHp": 2000.0,
+      "Atk": 40.0,
+      "IconImage": "072.sprite",
+      "DropItemId": 3,
+      "DefaultSkillId": 10071,
+      "Scale": 5
+    },
+    {
+      "DataId": 400073,
+      "DescriptionTextID": "073",
+      "PrefabLabel": "Boss",
+      "MaxHp": 3000.0,
+      "Atk": 40.0,
+      "IconImage": "073.sprite",
+      "DropItemId": 0,
+      "DefaultSkillId": 10071,
+      "Scale": 5
+    },
+    {
+      "DataId": 400074,
+      "DescriptionTextID": "074",
+      "PrefabLabel": "Boss",
+      "MaxHp": 4000.0,
+      "Atk": 1000000.0,
+      "IconImage": "074.sprite",
+      "DropItemId": 0,
+      "DefaultSkillId": 10071,
+      "Scale": 1
     }
   ]
 }

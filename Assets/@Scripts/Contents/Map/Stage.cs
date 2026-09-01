@@ -103,6 +103,12 @@ public class Stage : MonoBehaviour
                     Managers.Map.AddObject(monster, cellPos);
                     _spawnObjects.Add(monster);
                     break;
+                case EObjectType.Boss:
+                    Boss boss = Managers.Object.Spawn<Boss>(worldPos, info.DataId);
+                    boss.SetCellPos(cellPos, true);
+                    Managers.Map.AddObject(boss, cellPos);
+                    _spawnObjects.Add(boss);
+                    break;
             }
         }
     }
@@ -118,6 +124,9 @@ public class Stage : MonoBehaviour
             {
                 case EObjectType.Monster:
                     Managers.Object.Despawn(obj as Monster);
+                    break;
+                case EObjectType.Boss:
+                    Managers.Object.Despawn(obj as Boss);
                     break;
             }
         }

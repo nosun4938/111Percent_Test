@@ -7,8 +7,9 @@ using static Define;
 
 public class ObjectManager
 {
-	public Hero Player { get; set; } = new Hero();
+	public Hero Player { get; set; }
 	public HashSet<Monster> Monsters { get; } = new HashSet<Monster>();
+	public HashSet<Boss> Bosses { get; } = new HashSet<Boss>();
 
 	#region Roots
 	public Transform GetRootTransform(string name)
@@ -22,9 +23,10 @@ public class ObjectManager
 
 	public Transform HeroRoot { get { return GetRootTransform("@Heroes"); } }
 	public Transform MonsterRoot { get { return GetRootTransform("@Monsters"); } }
-	#endregion
+    public Transform BossRoot { get { return GetRootTransform("@Bosses"); } }
+    #endregion
 
-	public void ShowDamageFont(Vector2 position, float damage, Transform parent, bool isCritical = false)
+    public void ShowDamageFont(Vector2 position, float damage, Transform parent, bool isCritical = false)
 	{
 		GameObject go = Managers.Resource.Instantiate("DamageFont", pooling: true);
 		DamageFont damageText = go.GetComponent<DamageFont>();
@@ -68,7 +70,14 @@ public class ObjectManager
 			Monsters.Add(monster);
 			monster.SetInfo(templateID);
 		}
-		return obj as T;
+        else if (obj.ObjectType == EObjectType.Boss)
+        {
+            obj.transform.parent = BossRoot;
+            Boss boss = go.GetComponent<Boss>();
+            Bosses.Add(boss);
+            boss.SetInfo(templateID);
+        }
+        return obj as T;
 	}
 
 	public void Despawn<T>(T obj) where T : BaseObject
@@ -85,13 +94,18 @@ public class ObjectManager
 			Monster monster = obj.GetComponent<Monster>();
 			Monsters.Remove(monster);
 		}
+        else if (obj.ObjectType == EObjectType.Boss)
+        {
+            Monster monster = obj.GetComponent<Boss>();
+            Monsters.Remove(monster);
+        }
 
-		Managers.Map.RemoveObject(obj);
+        Managers.Map.RemoveObject(obj);
 		Managers.Resource.Destroy(obj.gameObject);
 	}
 
     #region Skill 판정
-    public List<Monster> FindLineTargets(Hero owner, float range)
+    public List<Monster> FindLineTargets(Creature owner, float range)
     {
         HashSet<Monster> targets = new HashSet<Monster>();
         HashSet<Monster> ret = new HashSet<Monster>();
@@ -118,7 +132,7 @@ public class ObjectManager
         return ret.ToList();
     }
 
-    public List<Monster> FindCircleTargets(Hero owner, Vector3 startPos, float range)
+    public List<Monster> FindCircleTargets(Hero owner, float range)
     {
         HashSet<Monster> targets = new HashSet<Monster>();
         HashSet<Monster> ret = new HashSet<Monster>();
@@ -130,7 +144,7 @@ public class ObjectManager
         {
             // 1. 거리안에 있는지 확인
             var targetPos = target.transform.position;
-            float distSqr = (targetPos - startPos).sqrMagnitude;
+            float distSqr = (targetPos - owner.transform.position).sqrMagnitude;
 
             if (distSqr < range * range)
                 ret.Add(target);

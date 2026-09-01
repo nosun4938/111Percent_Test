@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Define;
 
-public class UI_TitleScene : UI_Scene
+public class UI_LoadScene : UI_Scene
 {
     enum GameObjects
     {
@@ -49,7 +49,14 @@ public class UI_TitleScene : UI_Scene
 			{
 				Managers.Data.Init();
 
-				GetObject((int)GameObjects.StartImage).gameObject.SetActive(true);
+                // 데이터 있는지 확인
+                if (Managers.Game.LoadGame() == false)
+                {
+                    Managers.Game.InitGame();
+                    Managers.Game.SaveGame();
+                }
+
+                GetObject((int)GameObjects.StartImage).gameObject.SetActive(true);
 				GetText((int)Texts.DisplayText).text = "Touch to Start";
 			}
 		});

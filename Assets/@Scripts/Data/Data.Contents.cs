@@ -17,7 +17,12 @@ namespace Data
 		
 		public float MaxHp;
 		public float Atk;
-	}
+
+        public int DefaultSkillId;
+        public int SkillAId;
+        public int SkillBId;
+        public int SkillCId;
+    }
 	#endregion
 
 	#region MonsterData
@@ -26,6 +31,7 @@ namespace Data
 	{
 		public string IconImage;
         public int DropItemId;
+		public float Scale;
 	}
 
 	[Serializable]
@@ -49,11 +55,6 @@ namespace Data
         public float UpMaxHpBonus;
         public float CriRate;
         public float CriDamage;
-
-        public int DefaultSkillId;
-        public int SkillAId;
-        public int SkillBId;
-		public int SkillCId;
     }
 
 	[Serializable]
@@ -102,6 +103,43 @@ namespace Data
 			return dict;
 		}
 	}
-	#endregion
+    #endregion
 
+    #region Item
+    [Serializable]
+    public class BaseData
+    {
+        public int DataId;
+    }
+
+    [Serializable]
+    public class ItemData : BaseData
+    {
+        public string Name;
+        public EItemType Type;
+        public EItemGrade Grade;
+        public int MaxStack;
+    }
+
+    [Serializable]
+    public class SwordData : ItemData
+    {
+        public int Damage;
+    }
+
+    [Serializable]
+    public class ItemDataLoader<T> : ILoader<int, T> where T : BaseData
+    {
+        public List<T> items = new List<T>();
+
+        public Dictionary<int, T> MakeDict()
+        {
+            Dictionary<int, T> dict = new Dictionary<int, T>();
+            foreach (T item in items)
+                dict.Add(item.DataId, item);
+
+            return dict;
+        }
+    }
+    #endregion
 }

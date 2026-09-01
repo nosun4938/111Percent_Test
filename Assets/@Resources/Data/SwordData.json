@@ -1,0 +1,84 @@
+{
+  "items": [
+    {
+      "DataId": 1,
+      "Name": "Sword_1",
+      "Type": "Sword",
+      "Grade": "Normal",
+      "MaxStack": 1,
+      "Damage": 10
+    },
+    {
+      "DataId": 2,
+      "Name": "Sword_2",
+      "Type": "Sword",
+      "Grade": "Normal",
+      "MaxStack": 1,
+      "Damage": 20
+    },
+    {
+      "DataId": 3,
+      "Name": "Sword_3",
+      "Type": "Sword",
+      "Grade": "Normal",
+      "MaxStack": 1,
+      "Damage": 30
+    },
+    {
+      "DataId": 4,
+      "Name": "Sword_4",
+      "Type": "Sword",
+      "Grade": "Rare",
+      "MaxStack": 1,
+      "Damage": 50
+    },
+    {
+      "DataId": 5,
+      "Name": "Sword_5",
+      "Type": "Sword",
+      "Grade": "Rare",
+      "MaxStack": 1,
+      "Damage": 60
+    },
+    {
+      "DataId": 6,
+      "Name": "Sword_6",
+      "Type": "Sword",
+      "Grade": "Rare",
+      "MaxStack": 1,
+      "Damage": 70
+    },
+    {
+      "DataId": 7,
+      "Name": "Sword_7",
+      "Type": "Sword",
+      "Grade": "Epic",
+      "MaxStack": 1,
+      "Damage": 100
+    },
+    {
+      "DataId": 8,
+      "Name": "Sword_8",
+      "Type": "Sword",
+      "Grade": "Epic",
+      "MaxStack": 1,
+      "Damage": 130
+    },
+    {
+      "DataId": 9,
+      "Name": "Sword_9",
+      "Type": "Sword",
+      "Grade": "Epic",
+      "MaxStack": 1,
+      "Damage": 160
+    },
+    {
+      "DataId": 10,
+      "Name": "Sword_10",
+      "Type": "Sword",
+      "Grade": "Legendary",
+      "MaxStack": 1,
+      "Damage": 200
+    }
+  ]
+}

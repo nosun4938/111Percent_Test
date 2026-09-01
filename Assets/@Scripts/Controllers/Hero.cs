@@ -10,11 +10,10 @@ using static Define;
 public class Hero : Creature
 {
 	public Data.HeroData HeroData { get; set; }
-    public SkillComponent Skills { get; protected set; }
-    public SkillBase PlayingSkill { get; set; }
 
     Vector2 _moveDir = Vector2.zero;
-    public Vector3 _hpRatio = Vector3.one;
+    int lastY = -1;
+    float _hpRatio;
 	public override ECreatureState CreatureState
 	{
 		get { return _creatureState; }
@@ -63,10 +62,6 @@ public class Hero : Creature
         // State
         EnterIdle();
 
-        // Skills
-        Skills = gameObject.GetOrAddComponent<SkillComponent>();
-        Skills.SetInfo(this, HeroData);
-
         CriRate = HeroData.CriRate;
         CriDamage = HeroData.CriDamage;
 
@@ -92,6 +87,11 @@ public class Hero : Creature
                 break;
 		}
 
+        // Score
+        if (lastY > CellPos.y)
+            Managers.Game.EarnScore(lastY - CellPos.y);
+        lastY = CellPos.y;
+
         // Map Transition
         Managers.Map.StageTransition.CheckMapChanged(CellPos);
     }
@@ -111,9 +111,9 @@ public class Hero : Creature
 
 		if (Target.IsValid() == false)
 			return;
-
+        
+        // Skill 사용
         EnterSkill();
-		// Skill 사용
     }
 
     private void EnterSkill()
@@ -147,12 +147,10 @@ public class Hero : Creature
     private void DoASkill()
     {
         Skills.ASkill.DoSkill();
-
+        SetCellPos(TargetCellPos, forceMove: true);
+        
         float delay = Skills.DefaultSkill.SkillData.Duration;
         StartWait(delay);
-
-        SetCellPos(TargetCellPos, forceMove: true);
-        EnterIdle();
     }
     private void DoBSkill()
     {
@@ -178,7 +176,7 @@ public class Hero : Creature
         {
             Managers.Map.MoveTo(this, TargetCellPos);
             TargetCellPos = default;
-            EnterIdle();
+            CancelWait();
             return;
         }
 
@@ -189,11 +187,15 @@ public class Hero : Creature
         StartWait(delay);
     }
 
+    private void EnterDead()
+    {
+        ModifyHp(MaxHp);
+        CreatureState = ECreatureState.Dead;
+    }
     private void UpdateDead()
     {
         if (LerpCellPosCompleted)
         {
-            ModifyHp(MaxHp);
             EnterIdle();
         }
     }
@@ -208,7 +210,7 @@ public class Hero : Creature
         if (creature == null)
             return;
 
-        float finalDamage = creature.Atk;
+        float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
         ModifyHp(Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp));
 
         Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
@@ -216,7 +218,6 @@ public class Hero : Creature
         if (Hp <= 0)
         {
             OnDead(attacker, skill);
-            CreatureState = ECreatureState.Dead;
             return;
         }
     }
@@ -224,10 +225,11 @@ public class Hero : Creature
     public override void OnDead(BaseObject attacker, SkillBase skill)
     {
         base.OnDead(attacker, skill);
-        Debug.Log("OnDead");
+        Managers.Game.SaveData.Score = 0;
+        Managers.Game.SaveGame();
 
-        CreatureState = ECreatureState.Dead;
         Managers.Map.MoveTo(this, new Vector3Int(0, 1, 0));
+        EnterDead();
     }
     #endregion
 
@@ -301,6 +303,7 @@ public class Hero : Creature
     IEnumerator CoWait(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        EnterIdle();
         _coWait = null;
     }
 
@@ -316,8 +319,8 @@ public class Hero : Creature
     public void ModifyHp(float hp)
     {
         Hp = hp;
-        _hpRatio.x = Hp / MaxHp;
-        Managers.Game.HP = Hp;
+        _hpRatio = Hp / MaxHp;
+        Managers.Game.HpRatio = _hpRatio;
     }
     #endregion
 }

@@ -1,17 +1,86 @@
 using Data;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Overlays;
 using UnityEngine;
 using static Define;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static UnityEngine.Rendering.DebugUI;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public class GameSaveData
+{
+    public int HighScore = 0;
+    public int Score = 0;
+    public int Gold = 0;
+
+    public int ItemDbIdGenerator = 1;
+    public List<ItemSaveData> Items = new List<ItemSaveData>();
+}
+
+[Serializable]
+public class ItemSaveData
+{
+    public int InstanceID;
+    public int DbID;
+    public int TemplateID;
+    public int Count;
+    public int EquipSlot; // 장착 + 인벤 + 창고
+    public int EnchantCount;
+}
+
 public class GameManager
 {
+    #region GameData
+    GameSaveData _saveData = new GameSaveData();
+    public GameSaveData SaveData { get { return _saveData; } set { _saveData = value; } }
 
+    public int Gold
+    {
+        get { return _saveData.Gold; }
+        private set
+        {
+            int diff = _saveData.Gold - value;
+            _saveData.Gold = value;
+            OnBroadcastEvent?.Invoke(EBroadcastEventType.ChangeGold, diff);
+        }
+    }
+
+    public void EarnGold(int amount)
+    {
+        Gold += amount;
+    }
+
+    public int Score
+    {
+        get { return _saveData.Score; }
+        private set
+        {
+            _saveData.Score = value;
+            if (value > _saveData.HighScore)
+                _saveData.HighScore = value;
+            OnBroadcastEvent?.Invoke(EBroadcastEventType.ScoreUp, value);
+        }
+    }
+
+    public void EarnScore(int amount)
+    {
+        Score += amount;
+    }
+
+    public int GenerateItemDbId()
+    {
+        int itemDbId = _saveData.ItemDbIdGenerator;
+        _saveData.ItemDbIdGenerator++;
+        return itemDbId;
+    }
+    #endregion
     #region Hero
     private Vector2 _moveDir;
 	public Vector2 MoveDir
@@ -24,14 +93,14 @@ public class GameManager
 		}
 	}
 
-	private float _hp;
-	public float HP
+	private float _hpRatio;
+	public float HpRatio
 	{
-		get { return _hp; }
+		get { return _hpRatio; }
 		set
 		{
-			_hp = value;
-			BroadcastEvent(EBroadcastEventType.ChangeHp, _hp);
+            _hpRatio = value;
+			BroadcastEvent(EBroadcastEventType.ChangeHp, _hpRatio);
 		}
 	}
 
@@ -62,6 +131,60 @@ public class GameManager
         OnBroadcastEvent?.Invoke(eventType, value);
     }
     #endregion
+
+    #region Save & Load	
+    public string Path { get { return Application.persistentDataPath + "/SaveData.json"; } }
+
+    public void InitGame()
+    {
+        if (File.Exists(Path))
+            return;
+
+
+        Gold = 100;
+    }
+
+    public void SaveGame()
+    {
+
+        // Item
+        {
+            SaveData.Items.Clear();
+            foreach (var item in Managers.Inventory.AllItems)
+                SaveData.Items.Add(item.SaveData);
+        }
+
+        string jsonStr = JsonUtility.ToJson(Managers.Game.SaveData);
+        File.WriteAllText(Path, jsonStr);
+        Debug.Log($"Save Game Completed : {Path}");
+    }
+
+    public bool LoadGame()
+    {
+        if (File.Exists(Path) == false)
+            return false;
+
+        string fileStr = File.ReadAllText(Path);
+        GameSaveData data = JsonUtility.FromJson<GameSaveData>(fileStr);
+
+        if (data != null)
+            Managers.Game.SaveData = data;
+
+        // Item
+        {
+            Managers.Inventory.Clear();
+
+            foreach (ItemSaveData itemSaveData in data.Items)
+            {
+                Managers.Inventory.AddItem(itemSaveData);
+            }
+        }
+
+        Debug.Log($"Save Game Loaded : {Path}");
+        return true;
+    }
+    #endregion
+
 
     #region Action
     public event Action<Vector2> OnMoveDirChanged;

@@ -61,6 +61,9 @@ internal class Pool
 
 	private void OnDestroy(GameObject go)
 	{
+		if (Application.isPlaying == false)
+			return;
+
 		GameObject.Destroy(go);
 	}
 	#endregion

@@ -10,7 +10,7 @@ public class Shield : SkillBase
         return true;
     }
 
-    public override void SetInfo(Hero owner, int skillTemplateID)
+    public override void SetInfo(Creature owner, int skillTemplateID)
     {
         base.SetInfo(owner, skillTemplateID);
     }

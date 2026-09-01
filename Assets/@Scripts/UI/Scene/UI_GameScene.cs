@@ -38,8 +38,8 @@ public class UI_GameScene : UI_Scene
 
         Refresh();
 
-        Managers.Game.OnBroadcastEvent -= OnHpBarChanged;
-        Managers.Game.OnBroadcastEvent += OnHpBarChanged;
+        Managers.Game.OnBroadcastEvent -= OnBroadcastEventHandler;
+        Managers.Game.OnBroadcastEvent += OnBroadcastEventHandler;
 
         return true;
     }
@@ -51,7 +51,7 @@ public class UI_GameScene : UI_Scene
 
     private void OnDisable()
     {
-        Managers.Game.OnBroadcastEvent -= OnHpBarChanged;
+        Managers.Game.OnBroadcastEvent -= OnBroadcastEventHandler;
     }
 
     public void SetInfo()
@@ -62,14 +62,25 @@ public class UI_GameScene : UI_Scene
     void Refresh()
     {
         RefreshImages();
-        RefreshTexts();
+        RefreshAttackPowerText();
+        RefreshGoldText();
+        RefreshScoreText();
     }
 
-    void OnHpBarChanged(EBroadcastEventType eventType, float hp)
+    void OnBroadcastEventHandler(EBroadcastEventType eventType, float hp)
     {
-        // 다른 방법 생각 필요
-        if (eventType == EBroadcastEventType.ChangeHp)
-            GetImage((int)Images.HpBar).rectTransform.localScale = Managers.Object.Player._hpRatio;
+        switch (eventType)
+        {
+            case EBroadcastEventType.ChangeHp:
+                GetImage((int)Images.HpBar).rectTransform.localScale = new Vector3(Managers.Game.HpRatio, 1, 1);
+                break;
+            case EBroadcastEventType.ChangeGold:
+                RefreshGoldText();
+                break;
+            case EBroadcastEventType.ScoreUp:
+                RefreshScoreText();
+                break;
+        }
     }
 
     void OnClickSkillAButton(PointerEventData evt)
@@ -90,10 +101,18 @@ public class UI_GameScene : UI_Scene
         GetImage((int)Images.HpBar).rectTransform.localScale = Vector3.one;
     }
 
-    void RefreshTexts()
+    public void RefreshAttackPowerText()
     {
-        GetText((int)Texts.AttackPowerText).text = $"{Managers.Object.Player.Atk}";
-        GetText((int)Texts.GoldCountText).text = $"100";
-        GetText((int)Texts.LevelText).text = $"4938";
+        GetText((int)Texts.AttackPowerText).text = $"50";
+    }
+
+    public void RefreshGoldText()
+    {
+        GetText((int)Texts.GoldCountText).text = Managers.Game.Gold.ToString();
+    }
+
+    public void RefreshScoreText()
+    {
+        GetText((int)Texts.LevelText).text = Managers.Game.Score.ToString();
     }
 }
