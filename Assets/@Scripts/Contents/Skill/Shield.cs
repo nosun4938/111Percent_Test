@@ -25,12 +25,9 @@ public class Shield : SkillBase
 
     protected override void OnAttackEvent()
     {
-        if (Owner.Target.IsValid() == false)
-            return;
-
         if (Owner.PlayingSkill != this)
             return;
 
-        Owner.Target.OnDamaged(Owner, this);
+        Owner.StartCoroutine(Owner.CoBlock(3.0f));
     }
 }

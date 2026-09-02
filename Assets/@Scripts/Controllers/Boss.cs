@@ -9,8 +9,14 @@ public class Boss : Monster
         if (base.Init() == false)
             return false;
 
-        StartCoroutine(CoUpdateAI());
+        
         return true;
+    }
+
+    public override void SetInfo(int templateID)
+    {
+        base.SetInfo(templateID);
+        StartCoroutine(CoUpdateAI());
     }
 
     public float UpdateAITick { get; protected set; } = 3.0f;
@@ -18,10 +24,12 @@ public class Boss : Monster
     {
         while (true)
         {
+            int randSkill = Random.Range(0, Skills.SkillList.Count);
+            SkillBase skill = Skills.SkillList[randSkill];
+
             if (Target.IsValid())
             {
-                StartCoroutine(CoSpriteKnockback(Vector2.down));
-                Debug.Log("Monster Skill Used");
+                StartCoroutine(CoBossAttack(Vector2.down, skill));
             }
 
             if (UpdateAITick > 0)
@@ -29,11 +37,6 @@ public class Boss : Monster
             else
                 yield return null;
         }
-    }
-
-    public override void SetInfo(int templateID)
-    {
-        base.SetInfo(templateID);
     }
 
     #region Battle
@@ -45,7 +48,25 @@ public class Boss : Monster
     public override void OnDead(BaseObject attacker, SkillBase skill)
     {
         base.OnDead(attacker, skill);
-        int dropItemId = Random.Range(1, 11); // Monster Drop ID로 대체 가능
+
+        // Temp Reward Data 필요
+        int dropItemId = MonsterData.DropItemId; // 기본값, null 안나오게 설정해야함
+        int randomInt = Random.Range(1, 101);
+
+        if (randomInt == 100)
+            dropItemId = 10;
+        else
+        {
+            randomInt /= 10;
+            dropItemId = randomInt == 0 ? 1 : randomInt;
+        }
+
+        if (Managers.Inventory.HasItem(dropItemId))
+        {
+            Debug.Log("이미 보유한 아이템, 골드로 대체");
+            Managers.Game.EarnGold(Random.Range(50, 60));
+            return;
+        }
 
         Item item = Managers.Inventory.MakeItem(dropItemId);
         if (item == null)
@@ -53,42 +74,51 @@ public class Boss : Monster
             Debug.Log("아이템 생성 실패");
             return;
         }
+
         Debug.Log($"아이템 획득 : {item.TemplateID}");
     }
     #endregion
 
-    public IEnumerator CoSpriteKnockback(Vector3 dir)
+    public IEnumerator CoBossAttack(Vector3 dir, SkillBase skill)
     {
-        Vector3 origin = transform.localPosition;
-        Vector3 target = origin + dir.normalized * 2.0f;
-
-        float duration = 0.3f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        if (skill is Shield)
         {
-            elapsed += Time.deltaTime;
-
-            float t = elapsed / duration;
-            transform.localPosition = Vector3.Lerp(origin, target, t);
-
-            yield return null;
+            Skills.BSkill.DoSkill();
         }
 
-        duration = 0.1f;
-        elapsed = 0f;
-
-        while (elapsed < duration)
+        if (skill is BossAttack)
         {
-            elapsed += Time.deltaTime;
+            Vector3 origin = transform.localPosition;
+            Vector3 target = origin + dir.normalized * 2.0f;
 
-            float t = elapsed / duration;
-            transform.localPosition = Vector3.Lerp(target, origin, t);
+            float duration = 0.3f;
+            float elapsed = 0f;
 
-            yield return null;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+
+                float t = elapsed / duration;
+                transform.localPosition = Vector3.Lerp(origin, target, t);
+
+                yield return null;
+            }
+
+            duration = 0.1f;
+            elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+
+                float t = elapsed / duration;
+                transform.localPosition = Vector3.Lerp(target, origin, t);
+
+                yield return null;
+            }
+
+            Skills.DefaultSkill.DoSkill();
+            transform.localPosition = origin;
         }
-
-        Skills.DefaultSkill.DoSkill();
-        transform.localPosition = origin;
     }
 }

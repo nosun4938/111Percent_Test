@@ -45,8 +45,8 @@ public class UI_TitleScene : UI_Scene
     void OnClickGameStartButton(PointerEventData evt)
     {
         Debug.Log("ChangeScene");
+        Managers.Game.ChangeWeapon();
         Managers.Scene.LoadScene(EScene.GameScene);
-        //Managers.Game.GameStart();
     }
 
     void OnClickSwordButton(PointerEventData evt)

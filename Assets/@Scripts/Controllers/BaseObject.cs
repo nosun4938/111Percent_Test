@@ -13,6 +13,7 @@ public class BaseObject : InitBase
     public Animator Animator { get; private set; }
     public CircleCollider2D Collider { get; private set; }
 	public Rigidbody2D RigidBody { get; private set; }
+
     public string CurrentAnimName { get; set; }
 
     public int DataTemplateID { get; set; }
@@ -38,7 +39,7 @@ public class BaseObject : InitBase
         Collider = gameObject.GetOrAddComponent<CircleCollider2D>();
 		RigidBody = GetComponent<Rigidbody2D>();
 
-		return true;
+        return true;
 	}
 
 	public void LookAtTarget(BaseObject target)
@@ -129,7 +130,7 @@ public class BaseObject : InitBase
 
 	public void SetCellPos(Vector3Int cellPos, bool forceMove = false)
 	{
-		CellPos = cellPos;
+        CellPos = cellPos;
 		LerpCellPosCompleted = false;
 
 		if (forceMove)
@@ -146,8 +147,7 @@ public class BaseObject : InitBase
 
 		Vector3 destPos = Managers.Map.Cell2World(CellPos);
 		Vector3 dir = destPos - transform.position;
-
-		if (dir.x > 0)
+        if (dir.x > 0)
 			LookRight = true;
 		else
             LookRight = false;

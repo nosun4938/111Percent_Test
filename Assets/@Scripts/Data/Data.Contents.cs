@@ -125,6 +125,7 @@ namespace Data
     public class SwordData : ItemData
     {
         public int Damage;
+		public int Price;
     }
 
     [Serializable]

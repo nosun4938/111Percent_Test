@@ -57,11 +57,6 @@ public static class Util
 		return null;
 	}
 
-	public static T ParseEnum<T>(string value)
-	{
-		return (T)Enum.Parse(typeof(T), value, true);
-	}
-
 	public static Color HexToColor(string color)
 	{
 		if (color.Contains("#") == false)
@@ -71,61 +66,4 @@ public static class Util
 
 		return parsedColor;
 	}
-
-	public static EObjectType DetermineTargetType(EObjectType ownerType, bool findAllies)
-	{
-		if (ownerType == Define.EObjectType.Hero)
-		{
-			return findAllies ? EObjectType.Hero : EObjectType.Monster;
-		}
-		else if (ownerType == Define.EObjectType.Monster)
-		{
-			return findAllies ? EObjectType.Monster : EObjectType.Hero;
-		}
-
-		return EObjectType.None;
-	}
-
-	public static T RandomElementByWeight<T>(this IEnumerable<T> sequence, Func<T, float> weightSelector)
-	{
-		float totalWeight = sequence.Sum(weightSelector);
-
-		double itemWeightIndex = new System.Random().NextDouble() * totalWeight;
-		float currentWeightIndex = 0;
-
-		foreach (var item in from weightedItem in sequence select new { Value = weightedItem, Weight = weightSelector(weightedItem) })
-		{
-			currentWeightIndex += item.Weight;
-
-			// If we've hit or passed the weight we are after for this item then it's the one we want....
-			if (currentWeightIndex >= itemWeightIndex)
-				return item.Value;
-
-		}
-
-		return default(T);
-	}
-
-	public static IPAddress GetIpv4Address(string hostAddress)
-	{
-		IPAddress[] ipAddr = Dns.GetHostAddresses(hostAddress);
-
-		if (ipAddr.Length == 0)
-		{
-			Debug.LogError("AuthServer DNS Failed");
-			return null;
-		}
-
-		foreach (IPAddress ip in ipAddr)
-		{
-			if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-			{
-				return ip;
-			}
-		}
-
-		Debug.LogError("AuthServer IPv4 Failed");
-		return null;
-	}
-
 }

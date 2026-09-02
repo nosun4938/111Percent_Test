@@ -4,19 +4,6 @@ using UnityEngine;
 
 public static class Define
 {
-    public enum EFindPathResult
-    {
-        Fail_LerpCell,
-        Fail_NoPath,
-        Fail_MoveTo,
-		Fail_Monster,
-        Success,
-    }
-	public enum EGameState
-	{
-		GameStart,
-		GameOver,
-	}
     public enum EScene
 	{
 		Unknown,
@@ -47,7 +34,16 @@ public static class Define
 		Max,
 	}
 
-	public enum EObjectType
+    public enum EFindPathResult
+    {
+        Fail_LerpCell,
+        Fail_NoPath,
+        Fail_MoveTo,
+        Fail_Monster,
+        Success,
+    }
+
+    public enum EObjectType
 	{
 		None,
 		Hero,
@@ -64,31 +60,6 @@ public static class Define
 		Skill,
 		Dead,
 		GameOver,
-	}
-
-	public enum EHeroMoveState
-	{
-		None,
-		TargetMonster,
-		CollectEnv,
-		ReturnToCamp,
-		ForceMove,
-		ForcePath
-	}
-
-	public enum ELayer
-	{
-		Default = 0,
-		TransparentFX = 1,
-		IgnoreRaycast = 2,
-		Dummy1 = 3,
-		Water = 4,
-		UI = 5,
-		Hero = 6,
-		Monster = 7,
-		Env = 8,
-		Obstacle = 9,
-		Projectile = 10,
 	}
 
 	public enum ECellCollisionType
@@ -114,38 +85,6 @@ public static class Define
 		ConeSmall,
 		ConeNormal,
 		ConeBig,
-	}
-
-	public enum EStatModType
-	{
-		Add,
-		PercentAdd,
-		PercentMult,
-	}
-
-	public enum EEffectType
-	{
-		Buff,
-		Debuff,
-		CrowdControl,
-	}
-
-	public enum EEffectClearType
-	{
-		TimeOut, // 시간초과로 인한 Effect 종료
-		ClearSkill, // 정화 스킬로 인한 Effect 종료
-		TriggerOutAoE, // AoE스킬을 벗어난 종료
-		EndOfAirborne, // 에어본이 끝난 경우 호출되는 종료
-	}
-
-	public enum ELanguage
-	{
-		Korean,
-		English,
-		French,
-		SimplifiedChinese,
-		TraditionalChinese,
-		Japanese
 	}
 
 	public enum EItemGrade
@@ -177,84 +116,14 @@ public static class Define
 		WareHouse = 200,
 	}
 
-	public enum EQuestPeriodType
-	{
-		Once, // 단발성
-		Daily,
-		Weekly,
-		Infinite, // 무한으로
-	}
-
-	public enum EQuestCondition
-	{
-		None,
-		Level,
-		ItemLevel,
-
-	}
-
-	public enum EQuestObjectiveType
-	{
-		KillMonster,
-		EarnMeat,
-		SpendMeat,
-		EarnWood,
-		SpendWood,
-		EarnMineral,
-		SpendMineral,
-		EarnGold,
-		SpendGold,
-		UseItem,
-		Survival,
-		ClearDungeon
-	}
-
-	public enum EQuestRewardType
-	{
-		Hero,
-		Gold,
-		Mineral,
-		Meat,
-		Wood,
-		Item,
-	}
-
-	public enum EQuestState
-	{
-		None,
-		Processing,
-		Completed,
-		Rewarded,
-	}
-
 	public enum EBroadcastEventType
 	{
 		None,
 		ChangeHp,
 		ChangeGold,
 		ScoreUp,
-		DungeonClear,
-		ChangeInventory,
-		ChangeCrew,
-		QuestClear,
-	}
-
-	public enum EResourceType
-	{
-		Wood,
-		Mineral,
-		Meat,
-		Gold,
-		Materials,
-		Dia
-	}
-
-	public enum EProviderType
-	{
-		None = 0,
-		Guest = 1,
-		Google = 2,
-		Facebook = 3,
+		ChangeAttackPower,
+		SkillUsed,
 	}
 
 	public const int CAMERA_PROJECTION_SIZE = 12;
@@ -272,18 +141,10 @@ public static class Define
 
 public static class AnimName
 {
-	public const string ATTACK_A = "attack";
-	public const string ATTACK_B = "attack";
-	public const string SKILL_A = "skill";
-	public const string SKILL_B = "skill";
 	public const string IDLE = "Idle";
 	public const string MOVE = "Move";
 	public const string DAMAGED = "hit";
-	public const string DEAD = "dead";
-	public const string EVENT_ATTACK_A = "event_attack";
-	public const string EVENT_ATTACK_B = "event_attack";
-	public const string EVENT_SKILL_A = "event_attack";
-	public const string EVENT_SKILL_B = "event_attack";
+	public const string DEAD = "Dead";
 }
 
 public static class SortingLayers

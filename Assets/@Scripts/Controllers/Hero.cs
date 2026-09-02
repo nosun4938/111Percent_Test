@@ -14,6 +14,7 @@ public class Hero : Creature
     Vector2 _moveDir = Vector2.zero;
     int lastY = -1;
     float _hpRatio;
+    
 	public override ECreatureState CreatureState
 	{
 		get { return _creatureState; }
@@ -67,6 +68,7 @@ public class Hero : Creature
 
         // Temp
         ModifyHp(MaxHp);
+        Managers.Game.AddPlayerPower(Atk);
     }
 
     private void Update()
@@ -84,12 +86,12 @@ public class Hero : Creature
 				break;
             case ECreatureState.Dead:
                 //UpdateDead();
-                break;
+                return;
 		}
 
         // Score
         if (lastY > CellPos.y)
-            Managers.Game.EarnScore(lastY - CellPos.y);
+            Managers.Game.EarnScore((lastY - CellPos.y) * 5);
         lastY = CellPos.y;
 
         // Map Transition
@@ -142,11 +144,17 @@ public class Hero : Creature
                 DoDefaultSkill();
                 break;
         }
+
+        if (CreatureState == ECreatureState.Dead)
+            return;
     }
 
     private void DoASkill()
     {
         Skills.ASkill.DoSkill();
+
+        if (CreatureState == ECreatureState.Dead)
+            return;
         SetCellPos(TargetCellPos, forceMove: true);
         
         float delay = Skills.DefaultSkill.SkillData.Duration;
@@ -158,39 +166,28 @@ public class Hero : Creature
 
         float delay = Skills.DefaultSkill.SkillData.Duration;
         StartWait(delay);
-
-        EnterIdle();
     }
     private void DoCSkill()
     {
         Skills.CSkill.DoSkill();
 
+        if (CreatureState == ECreatureState.Dead)
+            return;
+        SetCellPos(TargetCellPos, forceMove: true);
+
         float delay = Skills.DefaultSkill.SkillData.Duration;
         StartWait(delay);
-
-        EnterIdle();
     }
     private void DoDefaultSkill()
     {
-        if (Target.IsValid() == false)
-        {
-            Managers.Map.MoveTo(this, TargetCellPos);
-            TargetCellPos = default;
-            CancelWait();
-            return;
-        }
-
         Skills.DefaultSkill.DoSkill();
-        LookAtTarget(Target);
+
+        if (CreatureState == ECreatureState.Dead)
+            return;
+        SetCellPos(TargetCellPos, forceMove: true);
 
         float delay = Skills.DefaultSkill.SkillData.Duration;
         StartWait(delay);
-    }
-
-    private void EnterDead()
-    {
-        CreatureState = ECreatureState.Dead;
-        Managers.UI.ShowPopupUI<UI_GameOverPopup>();
     }
     #endregion
 
@@ -202,9 +199,9 @@ public class Hero : Creature
         if (creature == null)
             return;
 
-        float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
-        ModifyHp(Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp));
+        float finalDamage = _onBlock ? 0 : creature.Atk * skill.SkillData.DamageMultiplier;
 
+        ModifyHp(Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp));
         Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);
 
         if (Hp <= 0)
@@ -218,8 +215,18 @@ public class Hero : Creature
     {
         base.OnDead(attacker, skill);
 
+        CancelWait();
+        StopAllCoroutines();
+
+        Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
+        Managers.Game.OnSkillSlotChanged -= HandleOnSkillSlotChanged;
+        _moveDir = Vector2.zero;
+
+        CreatureState = ECreatureState.Dead;
         Managers.Map.MoveTo(this, new Vector3Int(0, 1, 0));
-        EnterDead();
+        StartCoroutine(CoLerpToCellPos());
+        
+        Managers.UI.ShowPopupUI<UI_GameOverPopup>();
     }
     #endregion
 
@@ -240,7 +247,7 @@ public class Hero : Creature
         HeroSkillSlot = skillSlot;
         EnterSkill();
     }
-    private SkillBase SlotToSkillBase(ESkillSlot skillSlot)
+    public SkillBase SlotToSkillBase(ESkillSlot skillSlot)
     {
         switch (skillSlot)
         {
@@ -273,7 +280,7 @@ public class Hero : Creature
 
                 break;
             case ECreatureState.Dead:
-                PlayAnimation(AnimName.IDLE);
+                PlayAnimation(AnimName.DEAD);
                 break;
             default:
                 break;

@@ -132,7 +132,7 @@ public class ObjectManager
         return ret.ToList();
     }
 
-    public List<Monster> FindCircleTargets(Hero owner, float range)
+    public List<Monster> FindCircleTargets(Creature owner, float range)
     {
         HashSet<Monster> targets = new HashSet<Monster>();
         HashSet<Monster> ret = new HashSet<Monster>();

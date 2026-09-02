@@ -76,6 +76,8 @@ public class InventoryManager
         InventoryItems.Remove(item);
         item.EquipSlot = (int)equipSlotType;
         EquippedItems[(int)equipSlotType] = item;
+
+        Managers.Game.EquippedItemChange(equipSlotType);
     }
 
     public void UnEquipItem(int instanceID, bool checkFull = true)

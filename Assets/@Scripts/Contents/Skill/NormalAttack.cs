@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class NormalAttack : SkillBase
 {
@@ -23,7 +24,7 @@ public class NormalAttack : SkillBase
         Owner.LookAtTarget(Owner.Target);
         Owner.PlayAnimation(SkillData.AnimName);
         base.DoSkill();
-	}
+    }
 
 	protected override void OnAttackEvent()
 	{
@@ -33,7 +34,13 @@ public class NormalAttack : SkillBase
         if (Owner.PlayingSkill != this)
             return;
 
-        Owner.OnDamaged(Owner.Target, this);
+        Vector3Int lastTargetPos = Owner.Target.CellPos;
         Owner.Target.OnDamaged(Owner, this);
+        Owner.OnDamaged(Owner.Target, this); // 몬스터랑 딜교했다는 설정
+
+        if (Managers.Map.CanGo(Owner, lastTargetPos) == false)
+            lastTargetPos = Owner.CellPos;
+		
+		Owner.TargetCellPos = lastTargetPos;
 	}
 }

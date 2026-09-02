@@ -67,7 +67,7 @@ public class StageTransition : InitBase
         {
             if (i > -1 && i < Stages.Count) 
             {
-                Debug.Log($"{i} Stage Load -> {Stages[i].name}");
+                //Debug.Log($"{i} Stage Load -> {Stages[i].name}");
                 Stages[i].LoadStage();
             }
         }

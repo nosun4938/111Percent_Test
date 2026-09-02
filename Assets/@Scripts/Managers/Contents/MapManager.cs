@@ -95,11 +95,9 @@ public class MapManager
 		if (CanGo(obj, cellPos) == false)
 			return false;
 
-		// 기존 좌표에 있던 오브젝트를 밀어준다.
-		// (단, 처음 신청했으면 해당 CellPos의 오브젝트가 본인이 아닐 수도 있음)
 		RemoveObject(obj);
 
-		// 새 좌표에 오브젝트를 등록한다.
+		// 새 좌표에 오브젝트 등록
 		AddObject(obj, cellPos);
 
 		// 셀 좌표 이동

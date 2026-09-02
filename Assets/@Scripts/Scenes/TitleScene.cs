@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static Define;
 
 public class TitleScene : BaseScene
 {
@@ -10,8 +11,9 @@ public class TitleScene : BaseScene
 
         SceneType = Define.EScene.TitleScene;
 
-        // Camera
-        CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
+        // Sound
+        Managers.Sound.Init();
+        Managers.Sound.Play(ESound.Bgm, "TitleScene", pitch: 0.1f);
 
         return true;
     }

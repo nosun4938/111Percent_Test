@@ -21,6 +21,9 @@ public class UI_GameScene : UI_Scene
     enum Images
     {
         HpBar,
+        CooldownA,
+        CooldownB,
+        CooldownC,
     }
 
     public override bool Init()
@@ -44,11 +47,6 @@ public class UI_GameScene : UI_Scene
         return true;
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void OnDisable()
     {
         Managers.Game.OnBroadcastEvent -= OnBroadcastEventHandler;
@@ -57,6 +55,18 @@ public class UI_GameScene : UI_Scene
     public void SetInfo()
     {
         Refresh();
+    }
+
+    private void Update()
+    {
+        RefreshCooldownImages();
+    }
+
+    void RefreshCooldownImages()
+    {
+        GetImage((int)Images.CooldownA).fillAmount = Managers.Game.GetSkillCooldownRatio(ESkillSlot.A);
+        GetImage((int)Images.CooldownB).fillAmount = Managers.Game.GetSkillCooldownRatio(ESkillSlot.B);
+        GetImage((int)Images.CooldownC).fillAmount = Managers.Game.GetSkillCooldownRatio(ESkillSlot.C);
     }
 
     void Refresh()
@@ -79,6 +89,11 @@ public class UI_GameScene : UI_Scene
                 break;
             case EBroadcastEventType.ScoreUp:
                 RefreshScoreText();
+                break;
+            case EBroadcastEventType.ChangeAttackPower:
+                RefreshAttackPowerText();
+                break;
+            case EBroadcastEventType.SkillUsed:
                 break;
         }
     }
@@ -103,7 +118,7 @@ public class UI_GameScene : UI_Scene
 
     public void RefreshAttackPowerText()
     {
-        GetText((int)Texts.AttackPowerText).text = $"50";
+        GetText((int)Texts.AttackPowerText).text = Managers.Game.AttackPower.ToString();
     }
 
     public void RefreshGoldText()

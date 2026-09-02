@@ -44,8 +44,6 @@ public class UIManager
 		{
 			CachePopupUI(type);
 		}
-
-		// ShowPopupUI<UI_WaypointPopup>();
 		
 		CloseAllPopupUI();
 	}

@@ -93,6 +93,7 @@ public class Item
 public class Sword : Item
 {
     public int Damage { get; private set; }
+    public int Price { get; private set; }
     protected Data.SwordData SwordData { get { return (Data.SwordData)TemplateData; } }
 
     public Sword(ItemSaveData saveData) : base(saveData)
@@ -113,6 +114,7 @@ public class Sword : Item
 
         SwordData data = (SwordData)TemplateData;
         Damage = data.Damage;
+        Price = data.Price;
 
         return true;
     }

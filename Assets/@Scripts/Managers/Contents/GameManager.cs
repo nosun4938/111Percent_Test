@@ -1,12 +1,7 @@
 using Data;
-using NUnit.Framework.Interfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Overlays;
 using UnityEngine;
 using static Define;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -104,6 +99,28 @@ public class GameManager
 		}
 	}
 
+    private float _attackPower;
+    public float AttackPower
+    {
+        get { return _attackPower; }
+        set
+        {
+            _attackPower = value;
+            BroadcastEvent(EBroadcastEventType.ChangeAttackPower, _attackPower);
+        }
+    }
+    public void ChangeWeapon()
+    {
+        Sword sword = Managers.Inventory.GetEquippedItem(EEquipSlotType.Weapon) as Sword;
+        if (sword == null)
+            return;
+        AttackPower = sword.Damage;
+    }
+    public void AddPlayerPower(float power)
+    {
+        AttackPower += power;
+    }
+
 	private EJoystickState _joystickState;
 	public EJoystickState JoystickState
 	{
@@ -125,6 +142,16 @@ public class GameManager
 			OnSkillSlotChanged?.Invoke(_skillSlot);
 		}
 	}
+    
+    public float GetSkillCooldownRatio(ESkillSlot slot)
+    {
+        Hero player = Managers.Object.Player;
+        if (player == null)
+            return 0f;
+        SkillBase skill = player.SlotToSkillBase(slot);
+
+        return skill.CooldownRatio;
+    }
 
     public void BroadcastEvent(EBroadcastEventType eventType, float value)
     {
@@ -140,8 +167,7 @@ public class GameManager
         if (File.Exists(Path))
             return;
 
-
-        Gold = 100;
+        Gold = 10000; // Test용
     }
 
     public void SaveGame()
@@ -185,14 +211,10 @@ public class GameManager
     }
     #endregion
 
-    #region GameStart
-    public void GameStart()
+    #region Item Event
+    public void EquippedItemChange(EEquipSlotType equipSlot)
     {
-        OnGameState?.Invoke(EGameState.GameStart);
-    }
-    public void GameOver()
-    {
-        OnGameState?.Invoke(EGameState.GameOver);
+        OnEEquippedItemChanged?.Invoke(equipSlot);
     }
     #endregion
 
@@ -201,6 +223,6 @@ public class GameManager
 	public event Action<EJoystickState> OnJoystickStateChanged;
 	public event Action<ESkillSlot> OnSkillSlotChanged;
 	public event Action<EBroadcastEventType, float> OnBroadcastEvent;
-    public event Action<EGameState> OnGameState;
+    public event Action<EEquipSlotType> OnEEquippedItemChanged;
 	#endregion
 }

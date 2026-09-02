@@ -32,6 +32,10 @@ public class GameScene : BaseScene
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = player;
 
+        // Sound
+        Managers.Sound.Init();
+        Managers.Sound.Play(ESound.Bgm, "GameScene", pitch: 0.1f);
+
         return true;
     }
 

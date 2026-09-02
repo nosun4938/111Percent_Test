@@ -60,9 +60,8 @@ public class Monster : Creature
         if (creature == null)
             return;
 		Target = creature;
-		Debug.Log($"Target on {Target}");
 
-        float finalDamage = creature.Atk * skill.SkillData.DamageMultiplier;
+        float finalDamage = _onBlock ? 0 : Managers.Game.AttackPower * skill.SkillData.DamageMultiplier;
         Hp = Mathf.Clamp(Hp - finalDamage, 0, MaxHp);
 
         Managers.Object.ShowDamageFont(transform.position, finalDamage, transform, false);

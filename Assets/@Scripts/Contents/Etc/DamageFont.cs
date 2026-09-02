@@ -16,7 +16,7 @@ public class DamageFont : MonoBehaviour
 
 		transform.position = pos;
 
-		if (damage < 0)
+		if (damage <= 0)
 		{
 			_damageText.color = Util.HexToColor("4EEE6F");
 		}
@@ -29,7 +29,10 @@ public class DamageFont : MonoBehaviour
 			_damageText.color = Color.red;
 		}
 
-		_damageText.text = $"{Mathf.Abs(damage)}";
+		if (damage == 0)
+            _damageText.text = $"Blocked";
+		else
+			_damageText.text = $"{Mathf.Abs(damage)}";
 		_damageText.alpha = 1;
 
 		if (parent != null)

@@ -14,7 +14,11 @@ public class Creature : BaseObject
     public Data.CreatureData CreatureData { get; private set; }
     public Vector3Int TargetCellPos { get; set; }
 
+    public Transform Shield { get; private set; }
+
     //public EffectComponent Effects { get; set; }
+
+    public bool _onBlock = false;
 
     #region Stats
     public float Hp { get; set; }
@@ -42,7 +46,10 @@ public class Creature : BaseObject
 		if (base.Init() == false)
 			return false;
 
-		return true;
+        // Temp, Effect로 옮겨야 함
+        Shield = transform.Find("Shield");
+
+        return true;
 	}
 
 	public virtual void SetInfo(int templateID)
@@ -70,7 +77,10 @@ public class Creature : BaseObject
 
 		// Map
 		StartCoroutine(CoLerpToCellPos());
-	}
+
+        // Temp
+        Shield.gameObject.SetActive(false);
+    }
 
 	#region Battle
 
@@ -120,14 +130,12 @@ public class Creature : BaseObject
 		{
 			Target = nextObject;
 			TargetCellPos = nextPos;
-			Debug.Log("Monster Discovered");
             return EFindPathResult.Fail_Monster;
         }
 
         if (Managers.Map.MoveTo(this, nextPos) == false)
             return EFindPathResult.Fail_MoveTo;
 
-		Debug.Log("Move Success");
 		return EFindPathResult.Success;
     }
 
@@ -146,6 +154,14 @@ public class Creature : BaseObject
             LerpToCellPos(8);
             yield return null;
         }
+    }
+    public IEnumerator CoBlock(float seconds)
+    {
+        _onBlock = true;
+        Shield.gameObject.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        _onBlock = false;
+        Shield.gameObject.SetActive(false);
     }
     #endregion
 }
